@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>CT_Board_HS14_M0</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>InES.CTBoard14_DFP.4.0.0</PackID>
+          <PackID>InES.CTBoard14_DFP.4.0.2</PackID>
           <PackURL>https://ennis.zhaw.ch/pack/</PackURL>
           <Cpu>IROM(0x08000000,0x200000) IRAM(0x20000000,0x30000) IRAM2(0x10000000,0x10000) CPUTYPE("Cortex-M0") CLOCK(180000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -184,6 +184,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -324,6 +326,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
             <v6LangP>1</v6LangP>
@@ -349,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -432,26 +435,26 @@
       </component>
     </components>
     <files>
-      <file attr="config" category="source" name="Device\Source\datainit_ctboard.s" version="3.0.5">
+      <file attr="config" category="source" name="Device\Source\datainit_ctboard.s">
         <instance index="0">RTE\Device\CT_Board_HS14_M0\datainit_ctboard.s</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="3.0.5" condition="SYSTEM_M0"/>
-        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="4.0.1" condition="SYSTEM_M0"/>
+        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="Device\Source\startup_ctboard.s" version="3.0.5">
+      <file attr="config" category="source" name="Device\Source\startup_ctboard.s">
         <instance index="0">RTE\Device\CT_Board_HS14_M0\startup_ctboard.s</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="3.0.5" condition="SYSTEM_M0"/>
-        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="4.0.1" condition="SYSTEM_M0"/>
+        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="Device\Source\system_ctboard.c" version="3.0.5">
+      <file attr="config" category="source" name="Device\Source\system_ctboard.c">
         <instance index="0">RTE\Device\CT_Board_HS14_M0\system_ctboard.c</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="3.0.5" condition="SYSTEM_M0"/>
-        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="4.0.1" condition="SYSTEM_M0"/>
+        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
@@ -468,39 +471,54 @@
         <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
         <targetInfos/>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_fmc.c" version="3.0.1">
+      <file attr="config" category="source" name="HAL\Source\hal_fmc.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_fmc.c</instance>
         <component Cclass="HAL" Cgroup="FMC" Cvendor="InES" Cversion="3.0.1" condition="HAL"/>
-        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
+        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_gpio.c" version="3.0.3">
+      <file attr="config" category="source" name="HAL\Source\hal_gpio.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_gpio.c</instance>
-        <component Cclass="HAL" Cgroup="GPIO" Cvendor="InES" Cversion="3.0.3" condition="HAL"/>
-        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
+        <component Cclass="HAL" Cgroup="GPIO" Cvendor="InES" Cversion="4.0.1" condition="HAL"/>
+        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_pwr.c" version="2.2.0">
+      <file attr="config" category="source" name="HAL\Source\hal_pwr.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_pwr.c</instance>
         <component Cclass="HAL" Cgroup="PWR" Cvendor="InES" Cversion="2.2.0" condition="HAL"/>
-        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
+        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_rcc.c" version="3.0.1">
+      <file attr="config" category="source" name="HAL\Source\hal_rcc.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_rcc.c</instance>
-        <component Cclass="HAL" Cgroup="RCC" Cvendor="InES" Cversion="3.0.1" condition="HAL"/>
-        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.0"/>
+        <component Cclass="HAL" Cgroup="RCC" Cvendor="InES" Cversion="4.0.1" condition="HAL"/>
+        <package name="CTBoard14_DFP" schemaVersion="1.1" supportContact="https://ennis.zhaw.ch/" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
     </files>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>&lt;Project Info&gt;</LayName>
+        <LayDesc></LayDesc>
+        <LayUrl></LayUrl>
+        <LayKeys></LayKeys>
+        <LayCat></LayCat>
+        <LayLic></LayLic>
+        <LayTarg>0</LayTarg>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>
