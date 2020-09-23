@@ -25,7 +25,7 @@
 #define BITMASK_KEY_ALL     0x0F
 
 #define NR_OF_7SEG_DISPLAYS 4u
-#define NR_SAMPLES          25  // set to 50 for stable generic debounce
+#define NR_SAMPLES          50  // set to 50 for stable generic debounce
 
 #define GPIO_P6             (uint16_t)0x0040
 #define GPIO_P3_to_P0       (uint16_t)0x000F
@@ -102,8 +102,7 @@ int main(void)
             default:
                 /* Task 4.4: Edge detection WITH multiple extension boards */
                 /// STUDENTS: To be programmed
-				switch_change = generic_debounce(&sample_buffer,
-					(uint8_t) hal_gpio_input_read(GPIOB));
+								switch_change = generic_debounce(&sample_buffer, (uint8_t) hal_gpio_input_read(GPIOB));
                 /// END: To be programmed
                 break;
         }
@@ -184,38 +183,42 @@ uint8_t detect_switch_change(void)
 static uint8_t detect_switch_change_debounce(void)
 {
     /// STUDENTS: To be programmed
-	static uint8_t switch_samples[NR_SAMPLES];	// Sample holder
+	static uint8_t switch_samples[NR_SAMPLES] = {0};	// Sample holder
 	uint8_t switch_values;						// Current switch values
-	uint8_t check_falling = 0xFF;				// Variable to detect falling edges
-	uint8_t check_rising = 0xFF;				// Variable to detect rising edges
+	uint8_t check_falling = 0;				// Variable to detect falling edges
+	uint8_t check_rising = 0;				// Variable to detect rising edges
+	uint8_t i;
+	uint8_t check_newest;
 	
 	/* make function entry visible on oscilloscope */
-    hal_gpio_bit_toggle(GPIOB, 0x040);
+	hal_gpio_bit_toggle(GPIOB, 0x040);
 	
-	switch_values = (uint8_t) hal_gpio_input_read(GPIOB);	// Read switch values
+	switch_values = (uint8_t) hal_gpio_input_read(GPIOB) & 0xF;	// Read switch values
 	
 	// Iterate through samples from oldes to newest
-	for(uint8_t i = NR_SAMPLES-1; i > 0; i--)
+	for(i = NR_SAMPLES-1; i > 0; i--)
 	{
+		check_rising |= ((~switch_samples[i-1]) & switch_samples[i]);
+		check_falling |= (switch_samples[i-1] & (~switch_samples[i]));
+		
 		switch_samples[i] = switch_samples[i-1];	// Shift and overwrite samples
-		check_falling &= switch_samples[i];			// Check if samples fall
-		check_rising &= ~switch_samples[i];			// Check if samples rise
+	}
+	
+	if (check_rising | check_falling)
+	{
+		return 0xFF;
 	}
 	
 	switch_samples[0] = switch_values;				// Save the newest sample
-	
+	check_newest = switch_samples[0] ^ switch_samples[1];
 	// Check if samples have falling or rising edges and return accordingly
-	if ((switch_samples[0] & check_falling & BITMASK_KEY_0) || 
-		(switch_samples[0] & check_rising & BITMASK_KEY_0)) {
+	if (check_newest & BITMASK_KEY_0) {
 		return 0x00;
-	} else if ((switch_samples[0] & check_falling & BITMASK_KEY_1) || 
-		(switch_samples[0] & check_rising & BITMASK_KEY_1)) {
+	} else if (check_newest & BITMASK_KEY_1) {
 		return 0x01;
-	} else if ((switch_samples[0] & check_falling & BITMASK_KEY_2) || 
-		(switch_samples[0] & check_rising & BITMASK_KEY_2)) {
+	} else if (check_newest & BITMASK_KEY_2) {
 		return 0x02;
-	} else if ((switch_samples[0] & check_falling & BITMASK_KEY_3) || 
-		(switch_samples[0] & check_rising & BITMASK_KEY_3)) {
+	} else if (check_newest & BITMASK_KEY_3) {
 		return 0x03;
 	} else {
 		return 0xFF;
@@ -250,12 +253,14 @@ static uint8_t generic_debounce(sample_buffer_t *sample_buffer,
     /// STUDENTS: To be programmed
 	uint8_t check_falling = 0xFF;	// Variable for detecting falling edges
 	uint8_t check_rising = 0xFF;	// Variable for detecting rising edges
+	uint8_t i;
 	
 	/* make function entry visible on oscilloscope */
-    hal_gpio_bit_toggle(GPIOB, 0x040);
+	hal_gpio_bit_toggle(GPIOB, 0x040);
 	
 	// Iterate through all samples
-	for(uint8_t i = NR_SAMPLES-1; i > 0; i--)
+	
+	for(i = NR_SAMPLES-1; i > 0; i--)
 	{
 		// Excempt the newest sample from the edge check
 		if (i != sample_buffer->write_index)
@@ -277,16 +282,16 @@ static uint8_t generic_debounce(sample_buffer_t *sample_buffer,
 	}
 	
 	// Check if samples have falling or rising edges and return accordingly
-	if ((new_sample & check_falling & BITMASK_KEY_0) || 
+	if ((~new_sample & check_falling & BITMASK_KEY_0) || 
 		(new_sample & check_rising & BITMASK_KEY_0)) {
 		return 0x00;
-	} else if ((new_sample & check_falling & BITMASK_KEY_1) || 
+	} else if ((~new_sample & check_falling & BITMASK_KEY_1) || 
 		(new_sample & check_rising & BITMASK_KEY_1)) {
 		return 0x01;
-	} else if ((new_sample & check_falling & BITMASK_KEY_2) || 
+	} else if ((~new_sample & check_falling & BITMASK_KEY_2) || 
 		(new_sample & check_rising & BITMASK_KEY_2)) {
 		return 0x02;
-	} else if ((new_sample & check_falling & BITMASK_KEY_3) || 
+	} else if ((~new_sample & check_falling & BITMASK_KEY_3) || 
 		(new_sample & check_rising & BITMASK_KEY_3)) {
 		return 0x03;
 	} else {
