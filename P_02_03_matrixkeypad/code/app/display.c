@@ -83,6 +83,8 @@ void disp_update(void)
 		hal_gpio_output_write(DISPLAY_PORT, gpio_output | (1<<15));
 	}
 	
+	hal_gpio_output_write(DISPLAY_PORT, gpio_output | (0<<15));
+	
     /// END: To be programmed
 }
 /*

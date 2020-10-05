@@ -77,7 +77,8 @@ int32_t main(void)
                                     the right.
          */
         /// STUDENTS: To be programmed        
-
+				else if (mode == MODE_HW_TEST) {
+					
 
 
 
