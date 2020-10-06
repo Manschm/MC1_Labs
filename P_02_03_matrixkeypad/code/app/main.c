@@ -43,6 +43,8 @@ int32_t main(void)
     /// STUDENTS: To be programmed
 	uint8_t data = 0;
 	uint8_t prev_data = 0;
+	uint8_t i;
+	uint8_t prev_exec = 0;
 
 
     /// END: To be programmed
@@ -77,42 +79,51 @@ int32_t main(void)
                                     the right.
          */
         /// STUDENTS: To be programmed        
-				else if (mode == MODE_HW_TEST) {
+		else if ((mode == MODE_HW_TEST) && (prev_exec != MODE_HW_TEST)) {
+			for (i=0; i<8; i++) {
+				disp_reg_new_value(8);
+			}
+			
+			disp_update();
+			prev_exec = MODE_HW_TEST;
+		}
+		
+		else if ((mode == MODE_NR_SEQUENCE) && (prev_exec != MODE_NR_SEQUENCE)) {
+			for (i=0; i<8; i++) {
+				disp_reg_new_value(i);
+			}
+			
+			disp_update();
+			prev_exec = MODE_NR_SEQUENCE;
+		}
+		
+		else if (mode == MODE_COL_BY_COL) {
+			data = scan_keypad_cbc();
+			
+			if (((data ^ prev_data) & ~prev_data) || (prev_data == 0xFF)) {
+				if (data != 0xFF) {
+					disp_reg_new_value(data);
 					disp_update();
 				}
-				else if (mode == MODE_NR_SEQUENCE) {
-					disp_reg_new_value(7);
-					disp_reg_new_value(6);
-					disp_reg_new_value(5);
-					disp_reg_new_value(4);
-					disp_reg_new_value(3);
-					disp_reg_new_value(2);
-					disp_reg_new_value(1);
-					disp_reg_new_value(0);
+			}
+			prev_data = data;
+			
+			prev_exec = MODE_COL_BY_COL;
+		}
+		
+		else if (mode == MODE_FAST_SCAN) {
+			data = scan_keypad_fast();
+			
+			if (data ^ prev_data) {
+				if (~data && prev_data) {
+					disp_reg_new_value(data);
 					disp_update();
 				}
-				else if (mode == MODE_COL_BY_COL) {
-					data = scan_keypad_cbc();
-					
-					if (data ^ prev_data) {
-						if (~data && prev_data) {
-							disp_reg_new_value(data);
-							disp_update();
-						}
-						prev_data = data;
-					}
-				}
-				else if (mode == MODE_FAST_SCAN) {
-					data = scan_keypad_fast();
-					
-					if (data ^ prev_data) {
-						if (~data && prev_data) {
-							disp_reg_new_value(data);
-							disp_update();
-						}
-						prev_data = data;
-					}
-				}
+				prev_data = data;
+			}
+			
+			prev_exec = MODE_FAST_SCAN;
+		}
         /// END: To be programmed        
     }
 
