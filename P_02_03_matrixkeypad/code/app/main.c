@@ -106,22 +106,22 @@ int32_t main(void)
 					disp_update();
 				}
 			}
-			prev_data = data;
 			
+			prev_data = data;
 			prev_exec = MODE_COL_BY_COL;
 		}
 		
 		else if (mode == MODE_FAST_SCAN) {
 			data = scan_keypad_fast();
 			
-			if (data ^ prev_data) {
-				if (~data && prev_data) {
+			if (((data ^ prev_data) & ~prev_data) || (prev_data == 0xFF)) {
+				if (data != 0xFF) {
 					disp_reg_new_value(data);
 					disp_update();
 				}
-				prev_data = data;
 			}
 			
+			prev_data = data;
 			prev_exec = MODE_FAST_SCAN;
 		}
         /// END: To be programmed        

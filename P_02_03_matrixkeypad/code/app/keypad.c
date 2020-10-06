@@ -118,12 +118,12 @@ uint8_t scan_keypad_fast(void)
 	};
 	
 	hal_gpio_input_t rowsB = {
-		COL_MASK,
+		ROW_MASK,
 		HAL_GPIO_PUPD_UP
 	};
 	
 	hal_gpio_output_t columnsB = {
-		ROW_MASK,
+		COL_MASK,
 		HAL_GPIO_PUPD_UP,
 		HAL_GPIO_OUT_SPEED_2MHZ,
 		HAL_GPIO_OUT_TYPE_PP
@@ -132,24 +132,26 @@ uint8_t scan_keypad_fast(void)
 	hal_gpio_init_input(PAD_PORT, columnsA);
 	hal_gpio_init_output(PAD_PORT, rowsA);
 	
-	data_col = hal_gpio_input_read(PAD_PORT) & 0xF;
+	data_col = ~hal_gpio_input_read(PAD_PORT) & 0xF;
 	
 	
 	hal_gpio_init_input(PAD_PORT, rowsB);
 	hal_gpio_init_output(PAD_PORT, columnsB);
 															
-	data_row = (hal_gpio_input_read(PAD_PORT) & 0xF0) >> 4;
+	data_row = ~(hal_gpio_input_read(PAD_PORT) >> 4) & 0xF;
 	
 	
-	for (i=0; i<4; i++) {
-		if ((data_col >> i) & 1) {
-			for (j=0; j<4; j++) {
-				if ((data_row >> j) & 1) {
-					ret_val = key_array[i][j];
-					break;
+	if ((data_col != 0) && (data_row != 0)) {
+		for (i=0; i<4; i++) {
+			if ((data_col >> i) & 1) {
+				for (j=0; j<4; j++) {
+					if ((data_row >> j) & 1) {
+						ret_val = key_array[j][i];
+						break;
+					}
 				}
+				break;
 			}
-			break;
 		}
 	}
 
