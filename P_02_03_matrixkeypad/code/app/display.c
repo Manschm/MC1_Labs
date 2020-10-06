@@ -80,10 +80,10 @@ void disp_update(void)
 	for (i = 0; i < NUM_OF_DIGITS; i++)
 	{
 		gpio_output = disp_buf[i] & ((i & 0x7) << 8);
-		hal_gpio_output_write(DISPLAY_PORT, gpio_output | (1<<15));
+		hal_gpio_output_write(DISPLAY_PORT, gpio_output | (1<<9));
 	}
 	
-	hal_gpio_output_write(DISPLAY_PORT, gpio_output | (0<<15));
+	hal_gpio_output_write(DISPLAY_PORT, gpio_output | (0<<9));
 	
     /// END: To be programmed
 }

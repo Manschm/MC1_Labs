@@ -41,8 +41,8 @@ int32_t main(void)
     uint8_t mode = 0;
     uint8_t prev_mode = 0;
     /// STUDENTS: To be programmed
-
-
+	uint8_t data = 0;
+	uint8_t prev_data = 0;
 
 
     /// END: To be programmed
@@ -78,10 +78,41 @@ int32_t main(void)
          */
         /// STUDENTS: To be programmed        
 				else if (mode == MODE_HW_TEST) {
+					disp_update();
+				}
+				else if (mode == MODE_NR_SEQUENCE) {
+					disp_reg_new_value(7);
+					disp_reg_new_value(6);
+					disp_reg_new_value(5);
+					disp_reg_new_value(4);
+					disp_reg_new_value(3);
+					disp_reg_new_value(2);
+					disp_reg_new_value(1);
+					disp_reg_new_value(0);
+					disp_update();
+				}
+				else if (mode == MODE_COL_BY_COL) {
+					data = scan_keypad_cbc();
 					
-
-
-
+					if (data ^ prev_data) {
+						if (~data && prev_data) {
+							disp_reg_new_value(data);
+							disp_update();
+						}
+						prev_data = data;
+					}
+				}
+				else if (mode == MODE_FAST_SCAN) {
+					data = scan_keypad_fast();
+					
+					if (data ^ prev_data) {
+						if (~data && prev_data) {
+							disp_reg_new_value(data);
+							disp_update();
+						}
+						prev_data = data;
+					}
+				}
         /// END: To be programmed        
     }
 

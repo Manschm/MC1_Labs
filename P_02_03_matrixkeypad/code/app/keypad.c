@@ -20,8 +20,9 @@
  * --------------------------------------------------------------------------*/
  
 /// STUDENTS: To be programmed
-
-
+#define PAD_PORT   GPIOB
+#define ROW_MASK		0xF0
+#define COL_MASK		0x0F
 
 
 /// END: To be programmed
@@ -33,6 +34,7 @@ static const int key_array [4][4] = { { 0x1, 0x2, 0x3, 0xF },
                                       { 0x7, 0x8, 0x9, 0xD },
                                       { 0xA, 0x0, 0xB, 0xC } };
 
+void init_poll_mode(void);
 
 /* public function definitions --------------------------------------------- */
                                       
@@ -43,8 +45,31 @@ uint8_t scan_keypad_cbc(void)
 {
     uint8_t ret_val = NOKEY_PRESSED;
     /// STUDENTS: To be programmed
-
-
+	uint8_t i, j;				// For loop counter variables
+	uint16_t row;				// Current row
+	uint8_t pad_data;		// Returned data from row
+	
+	init_poll_mode();		// Initialize GPIO for polling
+	
+	row = 1;
+	for (i=0; i<4; i++) {
+		hal_gpio_output_write(PAD_PORT, ~row);
+		
+		for (j=0; j<4; j++) {
+			pad_data = ~hal_gpio_input_read(PAD_PORT) & 0xF;
+			
+			if (pad_data != 0) {
+				ret_val = key_array[i][j];
+				break;
+			}
+		}
+		
+		if (ret_val != NOKEY_PRESSED) {
+			break;
+		}
+		
+		row <<= 1;
+	}
 
 
     /// END: To be programmed
@@ -58,9 +83,43 @@ uint8_t scan_keypad_fast(void)
 {
     uint8_t ret_val = NOKEY_PRESSED;
     /// STUDENTS: To be programmed
-
-
-
+	uint8_t data_row;
+	uint8_t data_col;
+	
+	hal_gpio_input_t columnsA = { COL_MASK,
+															HAL_GPIO_PUPD_UP };
+	hal_gpio_output_t rowsA = { ROW_MASK,
+                              HAL_GPIO_PUPD_UP,
+                              HAL_GPIO_OUT_SPEED_2MHZ,
+                              HAL_GPIO_OUT_TYPE_PP };
+	hal_gpio_init_input(PAD_PORT, columnsA);
+	hal_gpio_init_output(PAD_PORT, rowsA);
+	
+	data_col = hal_gpio_input_read(PAD_PORT) & 0xF;
+	
+	hal_gpio_input_t rowsB = { COL_MASK,
+															HAL_GPIO_PUPD_UP };
+	hal_gpio_output_t columnsB = { ROW_MASK,
+                              HAL_GPIO_PUPD_UP,
+                              HAL_GPIO_OUT_SPEED_2MHZ,
+                              HAL_GPIO_OUT_TYPE_PP };
+	hal_gpio_init_input(PAD_PORT, rowsB);
+	hal_gpio_init_output(PAD_PORT, columnsB);
+															
+	data_row = (hal_gpio_input_read(PAD_PORT) & 0xF0) >> 4;
+	
+	uint8_t i, j;
+	for (i=0; i<4; i++) {
+		if ((data_col >> i) & 1) {
+			for (j=0; j<4; j++) {
+				if ((data_row >> j) & 1) {
+					ret_val = key_array[i][j];
+					break;
+				}
+			}
+			break;
+		}
+	}
 
     /// END: To be programmed
     return ret_val;
@@ -68,7 +127,18 @@ uint8_t scan_keypad_fast(void)
 
 /* internal functions definitions ------------------------------------------ */
 /// STUDENTS: To be programmed
-
+void init_poll_mode(void)
+{
+	// low nibble input, high nibble output
+	hal_gpio_input_t columns = { COL_MASK,
+															HAL_GPIO_PUPD_UP };
+	hal_gpio_output_t rows = { ROW_MASK,
+                              HAL_GPIO_PUPD_UP,
+                              HAL_GPIO_OUT_SPEED_2MHZ,
+                              HAL_GPIO_OUT_TYPE_PP };
+	hal_gpio_init_input(PAD_PORT, columns);
+	hal_gpio_init_output(PAD_PORT, rows);
+}
 
 
 
