@@ -23,7 +23,7 @@
 #include "user_button.h"
 #include "wakeup_timer.h"
 
-#define CLOCK (CLOCK_168MHZ)
+#define CLOCK (CLOCK_60MHZ)
 
 /* Switch between task with FSM and task with wakeup_timer */
 const hal_bool_t use_wakeup_timer = FALSE;    // uncomment for FSM

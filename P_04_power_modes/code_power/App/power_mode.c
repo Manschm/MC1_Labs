@@ -62,10 +62,12 @@ void power_enter_sleep(void)
      */
 
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	// Clear SLEEPDEEP bit to enter SLEEP
+	SCB->SCR &= ~(1<<2);
+	
+	// Enter sleep mode
+	__asm volatile("wfi");
     /// END: To be programmed
 }
 
@@ -81,10 +83,28 @@ void power_enter_stop(void)
      */
 
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	// Clear PDDS -> Enter STOP when DEEPSLEEP
+    PWR->CR &= ~(1<<1);
+ 
+    // Set LPDS -> Low power regulator when STOP
+    PWR->CR |= (1<<0);
+	
+	// Clear LPUDS -> Low power regulator on
+	PWR->CR &= ~(1<<10);
+	
+	// Set FPDS -> Flash memory in power down mode
+	PWR->CR |= (1<<9);
+ 
+    // Set SLEEPDEEP bit to enter DEEPSLEEP
+    SCB->SCR |= (1<<2);
+ 
+    // Enter stop mode
+    __asm volatile ("wfi");
+	
+	// Reset SLEEPDEEP bit after wakeup
+    SCB->SCR &= ~(1<<2);
+	
     /// END: To be programmed
 }
 
@@ -166,8 +186,48 @@ static void fill_init_structs(hal_rcc_pll_init_t *pll_init,
             break;
 
         /// STUDENTS: To be programmed
-
-
+		
+		case CLOCK_120MHZ:
+            /* PLL config */
+            pll_init->source = HAL_RCC_OSC_HSE; // Use HSE (8 MHz) as PLL source
+            pll_init->m_divider = 4u;   // VCOin: HSE / m_divider -> 2 MHz
+            pll_init->n_factor = 120u;  // VCOout: VCOin * n_factor -> 336 MHz
+            pll_init->p_divider = 2u;   // PLL: VCOout / p_divider -> 168 MHz
+            pll_init->q_divider = 5u;   // 48 MHz out: VCOout / q_div -> 48 MHz
+            /* Clock config */
+            clk_init->osc = HAL_RCC_OSC_PLL; // Use PLL as SYSCLK source
+            clk_init->hpre = HAL_RCC_HPRE_2; // HCLK: SYSCLK / hpre -> 84 MHz
+            clk_init->ppre1 = HAL_RCC_PPRE_2; // PCLK1: HCLK / ppre1 -> 48 MHz
+            clk_init->ppre2 = HAL_RCC_PPRE_2; // PCLK2: HCLK / ppre2 -> 48 MHz
+			break;
+		
+		case CLOCK_84MHZ:
+            /* PLL config */
+            pll_init->source = HAL_RCC_OSC_HSE; // Use HSE (8 MHz) as PLL source
+            pll_init->m_divider = 4u;   // VCOin: HSE / m_divider -> 2 MHz
+            pll_init->n_factor = 168u;  // VCOout: VCOin * n_factor -> 336 MHz
+            pll_init->p_divider = 4u;   // PLL: VCOout / p_divider -> 168 MHz
+            pll_init->q_divider = 7u;   // 48 MHz out: VCOout / q_div -> 48 MHz
+            /* Clock config */
+            clk_init->osc = HAL_RCC_OSC_PLL; // Use PLL as SYSCLK source
+            clk_init->hpre = HAL_RCC_HPRE_2; // HCLK: SYSCLK / hpre -> 84 MHz
+            clk_init->ppre1 = HAL_RCC_PPRE_2; // PCLK1: HCLK / ppre1 -> 48 MHz
+            clk_init->ppre2 = HAL_RCC_PPRE_2; // PCLK2: HCLK / ppre2 -> 48 MHz
+			break;
+		
+		case CLOCK_60MHZ:
+            /* PLL config */
+            pll_init->source = HAL_RCC_OSC_HSE; // Use HSE (8 MHz) as PLL source
+            pll_init->m_divider = 4u;   // VCOin: HSE / m_divider -> 2 MHz
+            pll_init->n_factor = 120u;  // VCOout: VCOin * n_factor -> 336 MHz
+            pll_init->p_divider = 4u;   // PLL: VCOout / p_divider -> 168 MHz
+            pll_init->q_divider = 5u;   // 48 MHz out: VCOout / q_div -> 48 MHz
+            /* Clock config */
+            clk_init->osc = HAL_RCC_OSC_PLL; // Use PLL as SYSCLK source
+            clk_init->hpre = HAL_RCC_HPRE_2; // HCLK: SYSCLK / hpre -> 84 MHz
+            clk_init->ppre1 = HAL_RCC_PPRE_2; // PCLK1: HCLK / ppre1 -> 48 MHz
+            clk_init->ppre2 = HAL_RCC_PPRE_2; // PCLK2: HCLK / ppre2 -> 48 MHz
+			break;
 
 
         /// END: To be programmed
