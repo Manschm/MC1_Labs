@@ -92,10 +92,9 @@ SPI_STATUS hal_acc_spi_read_write(uint16_t nr_of_bytes, uint8_t *tx_buffer,
               this file
      */
     /// STUDENTS: To be programmed
-
-
-
-
+	set_ss_pin_low();
+	HAL_SPI_TransmitReceive(&hspi, tx_buffer, rx_buffer, nr_of_bytes, TIMEOUT_VAL_SPI);
+	set_ss_pin_high();
     /// END: To be programmed
 }
 

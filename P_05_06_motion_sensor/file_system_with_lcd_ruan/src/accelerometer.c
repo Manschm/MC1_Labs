@@ -202,10 +202,9 @@ uint8_t accelerometer_who_am_i(void)
        Use function hal_acc_spi_read_write() from module spi
      */
     /// STUDENTS: To be programmed
-
-
-
-
+	tx_buffer[0] = 0x0F;	// WHO_AM_I register
+	hal_acc_spi_read_write(1, tx_buffer, rx_buffer);
+	return rx_buffer[0];
     /// END: To be programmed
 }
 
