@@ -112,10 +112,12 @@ int main(void)
 
         while (1) {
             /// STUDENTS: To be programmed 
-
-
-
-
+			power_set_clock(CLOCK);		// Unnötig?
+			output_set_green(ENABLE);
+			output_set_red(DISABLE);
+			work_hard();
+			output_set_green(DISABLE);
+			power_enter_stop();
             /// END: To be programmed
         }
     }
