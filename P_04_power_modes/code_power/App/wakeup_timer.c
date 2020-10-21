@@ -54,21 +54,24 @@ void wakeup_init(void)
      */
 
     /// STUDENTS: To be programmed
-	PWR->CR |= 1<<8;					// Unlock backup domain
+	PWR->CR |= (1<<8);					// Unlock backup domain
 	RTC->WPR = 0xCA;					// Write unlock key
 	RTC->WPR = 0x53;
-	RCC->BDCR |= (1<<15) | (0x10<<8);	// Set clock source of RTC
+	RCC->BDCR |= (0x2<<8);				// Select RTC clock source
+	RCC->BDCR |= (1<<15);				// Enable RTC clock
 	
 	RTC->CR &= ~(1<<10);				// Disable wakeup timer
-	while (~(RTC->ISR & (1<<2)));		// Wait until register access is garanteed
+	do {
+		reg = RTC->ISR & (1<<2);		// Wait until register access is garanteed
+	} while (reg == 0);
 	RTC->CR &= ~(0x3);					// Select prescaler 16
-	RTC->WUTR = 2048-1;					// Set auto-reload value
+	RTC->WUTR = 60000;//204;					// Set auto-reload value
 	RTC->CR |= (1<<14);					// Enable wakeup interrupt
 	
-	RTC->ISR &= ~(1<<2);				// Clear any pending interrupt flags
+	RTC->ISR &= ~(1<<10);				// Clear any pending interrupt flags
 	EXTI->IMR |= (1<<22);				// Interrupt lines mask
 	EXTI->RTSR |= (1<<22);				// Trigger on rising edge
-	NVIC->ISER0 |= (1<<19);				// ENABLE RTC wakeup interrupt in the NVIC
+	NVIC->ISER0 |= (1<<3);				// ENABLE RTC wakeup interrupt in the NVIC
 	
 	RTC->CR |= (1<<10);					// Enable wakeup timer
 	RTC->WPR = 0xFF;					// Enable RTC write protection
@@ -84,7 +87,7 @@ void wakeup_init(void)
 void RTC_WKUP_IRQHandler()
 {
 	RTC->ISR &= ~(1<<10);	// Clear WUTF (wakeup timer flag)
-	EXTI->PR &= ~(1<<22);	// Clear EXTI interrupt flag
+	EXTI->PR |= (1<<22);	// Clear EXTI interrupt flag
 	// NVIC flag?
 }
 
