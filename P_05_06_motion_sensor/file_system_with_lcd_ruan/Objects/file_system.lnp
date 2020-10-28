@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp
+--cpu=Cortex-M4.fp.sp
 ".\objects\accelerometer.o"
 ".\objects\bsp_driver_sd.o"
 ".\objects\fatfs_platform.o"

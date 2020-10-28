@@ -203,9 +203,9 @@ uint8_t accelerometer_who_am_i(void)
      */
     /// STUDENTS: To be programmed
 	tx_buffer[0] = 0x0F | 0x80;	// WHO_AM_I register and read
-	tx_buffer[1] = 0x00;
+	tx_buffer[1] = 0;
 	
-	hal_acc_spi_read_write(1, tx_buffer, rx_buffer);
+	hal_acc_spi_read_write(2, tx_buffer, rx_buffer);
 	
 	return rx_buffer[1];
     /// END: To be programmed
