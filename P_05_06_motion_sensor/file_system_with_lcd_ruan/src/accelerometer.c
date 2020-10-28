@@ -73,10 +73,8 @@ void accelerometer_init(mode_t mode)
      *  Set priority level to '0' and subpriority level to '1'
      */
     /// STUDENTS: To be programmed
-
-
-
-
+	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 1);
+	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
     /// END: To be programmed    
     
     /* reset sensor */
@@ -202,7 +200,7 @@ uint8_t accelerometer_who_am_i(void)
        Use function hal_acc_spi_read_write() from module spi
      */
     /// STUDENTS: To be programmed
-	tx_buffer[0] = 0x0F | 0x80;	// WHO_AM_I register and read
+	tx_buffer[0] = WHO_AM_I_ADD | 0x80;	// WHO_AM_I register and read
 	tx_buffer[1] = 0;
 	
 	hal_acc_spi_read_write(2, tx_buffer, rx_buffer);
@@ -212,17 +210,21 @@ uint8_t accelerometer_who_am_i(void)
 }
 
 /**
- * \brief Initialize the sensor with continous-mode
+ * \brief Initialize the sensor with continuous-mode
  */
 static void init_continous(void)
 {
     /* interrupt on INT1 if data ready */
     // MOTION SENSOR I
     /// STUDENTS: To be programmed
-
-
-
-
+	// Enable accelerometer data ready on INT1
+	write_reg(INT1_CTRL_ADD, (0x1 << 0));
+	
+	// Set accelerometer data rate to 104 Hz
+	write_reg(CTRL1_XL_ADD, (0x4 << 4));
+	
+	// Set ODR to 104 Hz and select conitnuous mode with overwrite
+	write_reg(FIFO_CTRL5_ADD, (0x4 << 3) | 0x6);	
     /// END: To be programmed
 }
 
@@ -294,10 +296,10 @@ static void calculate_gvalue(int16_t *result, uint8_t *raw_values)
 static void write_reg(uint8_t address, uint8_t value)
 {
     /// STUDENTS: To be programmed
-
-
-
-
+	tx_buffer[0] = address;
+	tx_buffer[1] = value;
+	
+	hal_acc_spi_read_write(2, tx_buffer, rx_buffer);
     /// END: To be programmed
 }
 
