@@ -94,10 +94,13 @@ void accelerometer_init(mode_t mode)
      */
     
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	// Set accelerometer data rate to 104 Hz
+	write_reg(CTRL1_XL_ADD, (0x4 << 4));
+	
+	// Set ODR to 104 Hz and select continuous mode with overwrite
+	write_reg(FIFO_CTRL5_ADD, (0x4 << 3) | 0x6);
+	
     /// END: To be programmed
     
     /* sensor configuration dependent on mode */
@@ -140,10 +143,16 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
              *  - set return value in length
              */
             /// STUDENTS: To be programmed
-
-
-
-
+			tx_buffer[0] = READ_OUTX_L_XL;
+			tx_buffer[1] = 0;
+			tx_buffer[2] = 0;
+			tx_buffer[3] = 0;
+			tx_buffer[4] = 0;
+			tx_buffer[5] = 0;
+			tx_buffer[6] = 0;
+		
+			hal_acc_spi_read_write(7, tx_buffer, rx_buffer);
+		
             /// END: To be programmed
             break;
         
@@ -217,14 +226,10 @@ static void init_continous(void)
     /* interrupt on INT1 if data ready */
     // MOTION SENSOR I
     /// STUDENTS: To be programmed
+	
 	// Enable accelerometer data ready on INT1
 	write_reg(INT1_CTRL_ADD, (0x1 << 0));
 	
-	// Set accelerometer data rate to 104 Hz
-	write_reg(CTRL1_XL_ADD, (0x4 << 4));
-	
-	// Set ODR to 104 Hz and select conitnuous mode with overwrite
-	write_reg(FIFO_CTRL5_ADD, (0x4 << 3) | 0x6);	
     /// END: To be programmed
 }
 

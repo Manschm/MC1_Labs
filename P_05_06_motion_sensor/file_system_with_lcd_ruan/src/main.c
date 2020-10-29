@@ -94,7 +94,7 @@ int main(void)
                      * Use nr_of_samples as an index
                      */
                     /// STUDENTS: To be programmed
-
+					accelerometer_read_acceleration(, mode);
 
 
 
