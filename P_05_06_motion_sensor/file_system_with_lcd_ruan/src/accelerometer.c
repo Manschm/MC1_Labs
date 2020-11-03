@@ -149,6 +149,7 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
              *  - set return value in length
              */
             /// STUDENTS: To be programmed
+		
 			tx_buffer[0] = READ_OUTX_L_XL;
 			tx_buffer[1] = 0;
 			tx_buffer[2] = 0;
@@ -160,6 +161,7 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
 			hal_acc_spi_read_write(7, tx_buffer, rx_buffer);
 			calculate_gvalue(acceleration, (uint8_t *)(&rx_buffer[1]));
 			nr_of_samples = 3;
+			
             /// END: To be programmed
             break;
         
@@ -169,10 +171,19 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
              * hal_acc_spi_read_write() by dma_read_write()
              */            
             /// STUDENTS: To be programmed
-
-
-
-
+		
+			tx_buffer[0] = READ_OUTX_L_XL;
+			tx_buffer[1] = 0;
+			tx_buffer[2] = 0;
+			tx_buffer[3] = 0;
+			tx_buffer[4] = 0;
+			tx_buffer[5] = 0;
+			tx_buffer[6] = 0;
+		
+			dma_read_write(7, tx_buffer, rx_buffer);
+			calculate_gvalue(acceleration, (uint8_t *)(&rx_buffer[1]));
+			nr_of_samples = 3;
+		
             /// END: To be programmed
             break;
         
@@ -346,13 +357,97 @@ static ACC_STATUS dma_read_write(uint16_t length, uint8_t *hal_tx_buffer,
      *      - Start SPI RX DMA
      *      - Generate SPI DMA requests
      *      - Poll for transfer on SPI TX DMA
-     *      - Poll for transfer on SPI TX DMA
+     *      - Poll for transfer on SPI RX DMA
      *      - Set SS pin high
      */
     /// STUDENTS: To be programmed
-
-
-
+	DMA_HandleTypeDef hdma_spi4_tx;
+	DMA_HandleTypeDef hdma_spi4_rx;
+	
+	__HAL_RCC_DMA2_CLK_ENABLE();	// Enable DMA clock
+	
+	// Set and enable interrupts for the DMA streams
+//	HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 1, 0);
+//	HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+//	HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 1, 0);
+//	HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
+	
+	// Configure TX DMA
+	hdma_spi4_tx.Instance = DMA2_Stream1;
+	hdma_spi4_tx.Init.Channel = DMA_CHANNEL_4;
+	hdma_spi4_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+	hdma_spi4_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+	hdma_spi4_tx.Init.MemInc = DMA_MINC_ENABLE;
+	hdma_spi4_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+	hdma_spi4_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+	hdma_spi4_tx.Init.Mode = DMA_NORMAL;
+	hdma_spi4_tx.Init.Priority = DMA_PRIORITY_LOW;
+	hdma_spi4_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+	hdma_spi4_tx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+	hdma_spi4_tx.Init.MemBurst = DMA_MBURST_SINGLE;
+	hdma_spi4_tx.Init.PeriphBurst = DMA_PBURST_SINGLE;
+	
+	// Initialize TX DMA
+	if (HAL_DMA_Init(&hdma_spi4_tx) != HAL_OK) {
+		while (1);	// Error
+	}
+	
+	// Configure RX DMA
+	hdma_spi4_rx.Instance = DMA2_Stream0;
+	hdma_spi4_rx.Init.Channel = DMA_CHANNEL_4;
+	hdma_spi4_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+	hdma_spi4_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+	hdma_spi4_rx.Init.MemInc = DMA_MINC_ENABLE;
+	hdma_spi4_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+	hdma_spi4_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+	hdma_spi4_rx.Init.Mode = DMA_NORMAL;
+	hdma_spi4_rx.Init.Priority = DMA_PRIORITY_LOW;
+	hdma_spi4_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+	hdma_spi4_rx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+	hdma_spi4_rx.Init.MemBurst = DMA_MBURST_SINGLE;
+	hdma_spi4_rx.Init.PeriphBurst = DMA_PBURST_SINGLE;
+	
+	// Initialize RX DMA
+	if (HAL_DMA_Init(&hdma_spi4_rx) != HAL_OK) {
+		while (1);	// Error
+	}
+	
+	// Set SS pin low
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_RESET);
+	
+	// Start DMA TX
+	if (HAL_DMA_Start(&hdma_spi4_tx, (uint32_t)hal_tx_buffer,
+		(uint32_t)(&(SPI4->DR)), length) != HAL_OK)
+	{
+		while (1);	// Error
+	}
+	
+	// Start DMA RX
+	if (HAL_DMA_Start(&hdma_spi4_rx, (uint32_t)hal_tx_buffer,
+		(uint32_t)(&(SPI4->DR)), length) != HAL_OK)
+	{
+		while (1);	// Error
+	}
+	
+	// Enable TX and RX DMA request
+	SPI4->CR2 |= 0x0003;
+	
+	// Wait for TX transfer complete
+	if (HAL_DMA_PollForTransfer(&hdma_spi4_tx, HAL_DMA_FULL_TRANSFER,
+		HAL_MAX_DELAY) != HAL_OK)
+	{
+		while (1);	// Error
+	}
+	
+	// Wait for RX transfer complete
+	if (HAL_DMA_PollForTransfer(&hdma_spi4_rx, HAL_DMA_FULL_TRANSFER,
+		HAL_MAX_DELAY) != HAL_OK)
+	{
+		while (1);	// Error
+	}
+	
+	// Set SS pin high
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
 
     /// END: To be programmed
 }
