@@ -94,9 +94,10 @@ int main(void)
                      * Use nr_of_samples as an index
                      */
                     /// STUDENTS: To be programmed
-					accelerometer_read_acceleration(, mode);
-
-
+				
+					accelerometer_read_acceleration(
+						(int16_t *)(&acc_buffer[nr_of_samples * 3]),
+						mode);
 
                     /// END: To be programmed
                 
@@ -171,9 +172,23 @@ static void calculate_acc_average(int16_t *samples, int16_t *result,
     result[2] = samples[2];
     
     /// STUDENTS: To be programmed
-
-
-
+	
+	uint16_t i;
+	int32_t sum[3];
+	
+	sum[0] = samples[0];
+	sum[1] = samples[1];
+	sum[2] = samples[2];
+	
+	for (i = 1; i < nr_of_samples; i++) {
+		sum[0] += samples[i * 3];
+		sum[1] += samples[i * 3 + 1];
+		sum[2] += samples[i * 3 + 2];
+	}
+	
+	result[0] = (int16_t)((sum[0] / nr_of_samples) & 0xFFFF);
+    result[1] = (int16_t)((sum[1] / nr_of_samples) & 0xFFFF);
+    result[2] = (int16_t)((sum[2] / nr_of_samples) & 0xFFFF);
 
     /// END: To be programmed
 }

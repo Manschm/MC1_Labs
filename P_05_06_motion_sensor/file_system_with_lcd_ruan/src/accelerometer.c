@@ -95,11 +95,17 @@ void accelerometer_init(mode_t mode)
     
     /// STUDENTS: To be programmed
 	
-	// Set accelerometer data rate to 104 Hz
-	write_reg(CTRL1_XL_ADD, (0x4 << 4));
+	write_reg(CTRL2_G_ADD, 0x00);	// Default values
+	write_reg(CTRL3_C_ADD, 0x04);	// Default values, enable auto. reg. add.
+	write_reg(CTRL4_C_ADD, 0x04);	// Disable I2C
+	write_reg(CTRL5_C_ADD, 0x00);	// Default values
+	write_reg(CTRL6_C_ADD, 0x00);	// Default values
+	write_reg(CTRL7_G_ADD, 0x00);	// Default values
+	write_reg(CTRL8_XL_ADD, 0x00);	// Default values
+	write_reg(CTRL9_XL_ADD, 0x00);	// Default values
+	write_reg(CTRL10_C_ADD, 0x00);	// Default values
 	
-	// Set ODR to 104 Hz and select continuous mode with overwrite
-	write_reg(FIFO_CTRL5_ADD, (0x4 << 3) | 0x6);
+	write_reg(CTRL1_XL_ADD, 0x58);	//ODR of 208 Hz, full-scale of +/- 4g
 	
     /// END: To be programmed
     
@@ -152,7 +158,8 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
 			tx_buffer[6] = 0;
 		
 			hal_acc_spi_read_write(7, tx_buffer, rx_buffer);
-		
+			calculate_gvalue(acceleration, (uint8_t *)(&rx_buffer[1]));
+			nr_of_samples = 3;
             /// END: To be programmed
             break;
         
@@ -227,8 +234,7 @@ static void init_continous(void)
     // MOTION SENSOR I
     /// STUDENTS: To be programmed
 	
-	// Enable accelerometer data ready on INT1
-	write_reg(INT1_CTRL_ADD, (0x1 << 0));
+	write_reg(INT1_CTRL_ADD, 0x01);	// Enable accelerometer data ready on INT1
 	
     /// END: To be programmed
 }
