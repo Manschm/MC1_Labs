@@ -174,7 +174,7 @@ static void calculate_acc_average(int16_t *samples, int16_t *result,
     /// STUDENTS: To be programmed
 	
 	uint16_t i;
-	int32_t sum[3];
+	int32_t sum[3];	// 32-bit variable to prevent over-/underflows
 	
 	sum[0] = samples[0];
 	sum[1] = samples[1];
