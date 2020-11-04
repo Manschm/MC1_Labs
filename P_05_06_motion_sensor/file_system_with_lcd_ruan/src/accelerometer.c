@@ -366,12 +366,6 @@ static ACC_STATUS dma_read_write(uint16_t length, uint8_t *hal_tx_buffer,
 	
 	__HAL_RCC_DMA2_CLK_ENABLE();	// Enable DMA clock
 	
-	// Set and enable interrupts for the DMA streams
-//	HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 1, 0);
-//	HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
-//	HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 1, 0);
-//	HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
-	
 	// Configure TX DMA
 	hdma_spi4_tx.Instance = DMA2_Stream1;
 	hdma_spi4_tx.Init.Channel = DMA_CHANNEL_4;
@@ -389,7 +383,7 @@ static ACC_STATUS dma_read_write(uint16_t length, uint8_t *hal_tx_buffer,
 	
 	// Initialize TX DMA
 	if (HAL_DMA_Init(&hdma_spi4_tx) != HAL_OK) {
-		while (1);	// Error
+		return ACC_DMA_INIT_ERROR;	// Error
 	}
 	
 	// Configure RX DMA
@@ -409,7 +403,7 @@ static ACC_STATUS dma_read_write(uint16_t length, uint8_t *hal_tx_buffer,
 	
 	// Initialize RX DMA
 	if (HAL_DMA_Init(&hdma_spi4_rx) != HAL_OK) {
-		while (1);	// Error
+		return ACC_DMA_INIT_ERROR; // Error
 	}
 	
 	// Set SS pin low
@@ -419,14 +413,14 @@ static ACC_STATUS dma_read_write(uint16_t length, uint8_t *hal_tx_buffer,
 	if (HAL_DMA_Start(&hdma_spi4_tx, (uint32_t)hal_tx_buffer,
 		(uint32_t)(&(SPI4->DR)), length) != HAL_OK)
 	{
-		while (1);	// Error
+		return ACC_DMA_START_ERROR;	// Error
 	}
 	
 	// Start DMA RX
-	if (HAL_DMA_Start(&hdma_spi4_rx, (uint32_t)hal_tx_buffer,
-		(uint32_t)(&(SPI4->DR)), length) != HAL_OK)
+	if (HAL_DMA_Start(&hdma_spi4_rx, (uint32_t)(&(SPI4->DR)),
+		(uint32_t)hal_rx_buffer, length) != HAL_OK)
 	{
-		while (1);	// Error
+		return ACC_DMA_START_ERROR;	// Error
 	}
 	
 	// Enable TX and RX DMA request
@@ -436,18 +430,20 @@ static ACC_STATUS dma_read_write(uint16_t length, uint8_t *hal_tx_buffer,
 	if (HAL_DMA_PollForTransfer(&hdma_spi4_tx, HAL_DMA_FULL_TRANSFER,
 		HAL_MAX_DELAY) != HAL_OK)
 	{
-		while (1);	// Error
+		return ACC_DMA_POLL_ERROR;	// Error
 	}
 	
 	// Wait for RX transfer complete
 	if (HAL_DMA_PollForTransfer(&hdma_spi4_rx, HAL_DMA_FULL_TRANSFER,
 		HAL_MAX_DELAY) != HAL_OK)
 	{
-		while (1);	// Error
+		return ACC_DMA_POLL_ERROR;	// Error
 	}
 	
 	// Set SS pin high
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
+	
+	return ACC_OK;
 
     /// END: To be programmed
 }
