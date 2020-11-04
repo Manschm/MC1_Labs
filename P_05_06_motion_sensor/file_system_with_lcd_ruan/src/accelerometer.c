@@ -105,7 +105,7 @@ void accelerometer_init(mode_t mode)
 	write_reg(CTRL9_XL_ADD, 0x00);	// Default values
 	write_reg(CTRL10_C_ADD, 0x00);	// Default values
 	
-	write_reg(CTRL1_XL_ADD, 0x58);	//ODR of 208 Hz, full-scale of +/- 4g
+	write_reg(CTRL1_XL_ADD, 0x58);	// ODR of 208 Hz, full-scale of +/- 4g
 	
     /// END: To be programmed
     
@@ -152,15 +152,10 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
 		
 			tx_buffer[0] = READ_OUTX_L_XL;
 			tx_buffer[1] = 0;
-			tx_buffer[2] = 0;
-			tx_buffer[3] = 0;
-			tx_buffer[4] = 0;
-			tx_buffer[5] = 0;
-			tx_buffer[6] = 0;
 		
-			hal_acc_spi_read_write(7, tx_buffer, rx_buffer);
+			hal_acc_spi_read_write(NR_TRANSACTIONS_SINGLE, tx_buffer, rx_buffer);
 			calculate_gvalue(acceleration, (uint8_t *)(&rx_buffer[1]));
-			nr_of_samples = 3;
+			nr_of_samples = (NR_TRANSACTIONS_SINGLE - 1) / 2;
 			
             /// END: To be programmed
             break;
@@ -174,15 +169,10 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
 		
 			tx_buffer[0] = READ_OUTX_L_XL;
 			tx_buffer[1] = 0;
-			tx_buffer[2] = 0;
-			tx_buffer[3] = 0;
-			tx_buffer[4] = 0;
-			tx_buffer[5] = 0;
-			tx_buffer[6] = 0;
 		
-			dma_read_write(7, tx_buffer, rx_buffer);
+			dma_read_write(NR_TRANSACTIONS_SINGLE, tx_buffer, rx_buffer);
 			calculate_gvalue(acceleration, (uint8_t *)(&rx_buffer[1]));
-			nr_of_samples = 3;
+			nr_of_samples = (NR_TRANSACTIONS_SINGLE - 1) / 6;
 		
             /// END: To be programmed
             break;
@@ -194,18 +184,26 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
              * Call calculate_gvalue_fifo() instead of calculate_gvalue()
              */          
             /// STUDENTS: To be programmed
-
-
-
+		
+			tx_buffer[0] = READ_FIFO_DATA_OUT_L;
+			tx_buffer[1] = 0;
+		
+			hal_acc_spi_read_write(NR_TRANSACTIONS_FIFO, tx_buffer, rx_buffer);
+			calculate_gvalue_fifo(acceleration, rx_buffer);
+			nr_of_samples = (NR_TRANSACTIONS_FIFO - 1) / 6;
 
             /// END: To be programmed
             break;
        
         case SPI_DMA_LSM_FIFO:
             /// STUDENTS: To be programmed
-
-
-
+		
+			tx_buffer[0] = READ_FIFO_DATA_OUT_L;
+			tx_buffer[1] = 0;
+		
+			dma_read_write(NR_TRANSACTIONS_FIFO, tx_buffer, rx_buffer);
+			calculate_gvalue_fifo(acceleration, rx_buffer);
+			nr_of_samples = (NR_TRANSACTIONS_FIFO - 1) / 6;
 
             /// END: To be programmed
             break;
@@ -267,10 +265,15 @@ static void init_fifo(void)
      */
     // MOTION SENSOR II
     /// STUDENTS: To be programmed
+	
+	write_reg(FIFO_CTRL1_ADD, 0x2C);	// FIFO threshold level
+	write_reg(FIFO_CTRL2_ADD, 0x01);	// Accelerometer in FIFO, no decimation
+	write_reg(FIFO_CTRL3_ADD, 0x01);	// Default values, enable auto. reg. add.
+	write_reg(FIFO_CTRL4_ADD, 0x00);	// Default values
+	write_reg(FIFO_CTRL5_ADD, 0x29);	// FIFO ODR 208 Hz, stop when full
 
-
-
-
+	write_reg(INT1_CTRL_ADD, 0x08);	// INT1 FIFO threshold interrupt
+	
     /// END: To be programmed
 }
 

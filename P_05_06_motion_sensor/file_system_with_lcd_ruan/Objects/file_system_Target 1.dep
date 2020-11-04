@@ -1,6 +1,6 @@
 Dependencies for Project 'file_system', Target 'Target 1': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::.\ARMCC
-F (.\src\accelerometer.c)(0x5FA25D40)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\inc -I .\Drivers\STM32F4xx_HAL_Driver\Inc -I .\Drivers\BSP\STM32F429I-Discovery -I .\Drivers\FatFs\src -I .\Drivers\CMSIS\Device\ST\STM32F4xx\Include -I .\Drivers\CMSIS\Include -I .\Drivers\Fonts-IC:\Users\Manuel\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F429xx -DSTM32F429xx -DUSE_STM32F429I_DISCO -DUSE_HAL_DRIVER-o .\objects\accelerometer.o --omf_browse .\objects\accelerometer.crf --depend .\objects\accelerometer.d)
+F (.\src\accelerometer.c)(0x5FA2678F)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\inc -I .\Drivers\STM32F4xx_HAL_Driver\Inc -I .\Drivers\BSP\STM32F429I-Discovery -I .\Drivers\FatFs\src -I .\Drivers\CMSIS\Device\ST\STM32F4xx\Include -I .\Drivers\CMSIS\Include -I .\Drivers\Fonts-IC:\Users\Manuel\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F429xx -DSTM32F429xx -DUSE_STM32F429I_DISCO -DUSE_HAL_DRIVER-o .\objects\accelerometer.o --omf_browse .\objects\accelerometer.crf --depend .\objects\accelerometer.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5EC7CA5C)
 I (.\inc\accelerometer.h)(0x5F992480)
 I (.\inc\spi.h)(0x5F992480)
@@ -119,7 +119,7 @@ I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h)(0x5F992480)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h)(0x5F992480)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_sdmmc.h)(0x5F992480)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_spi.h)(0x5F992480)
-F (.\src\main.c)(0x5FA1495A)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\inc -I .\Drivers\STM32F4xx_HAL_Driver\Inc -I .\Drivers\BSP\STM32F429I-Discovery -I .\Drivers\FatFs\src -I .\Drivers\CMSIS\Device\ST\STM32F4xx\Include -I .\Drivers\CMSIS\Include -I .\Drivers\Fonts-IC:\Users\Manuel\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F429xx -DSTM32F429xx -DUSE_STM32F429I_DISCO -DUSE_HAL_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\src\main.c)(0x5FA26556)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\inc -I .\Drivers\STM32F4xx_HAL_Driver\Inc -I .\Drivers\BSP\STM32F429I-Discovery -I .\Drivers\FatFs\src -I .\Drivers\CMSIS\Device\ST\STM32F4xx\Include -I .\Drivers\CMSIS\Include -I .\Drivers\Fonts-IC:\Users\Manuel\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F429xx -DSTM32F429xx -DUSE_STM32F429I_DISCO -DUSE_HAL_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (.\inc\sdio.h)(0x5F992480)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5F992480)
 I (.\inc\stm32f4xx_hal_conf.h)(0x5F992480)
@@ -249,7 +249,7 @@ I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h)(0x5F992480)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h)(0x5F992480)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_sdmmc.h)(0x5F992480)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_spi.h)(0x5F992480)
-F (.\src\spi.c)(0x5FA195AD)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\inc -I .\Drivers\STM32F4xx_HAL_Driver\Inc -I .\Drivers\BSP\STM32F429I-Discovery -I .\Drivers\FatFs\src -I .\Drivers\CMSIS\Device\ST\STM32F4xx\Include -I .\Drivers\CMSIS\Include -I .\Drivers\Fonts-IC:\Users\Manuel\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F429xx -DSTM32F429xx -DUSE_STM32F429I_DISCO -DUSE_HAL_DRIVER-o .\objects\spi.o --omf_browse .\objects\spi.crf --depend .\objects\spi.d)
+F (.\src\spi.c)(0x5FA26707)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\inc -I .\Drivers\STM32F4xx_HAL_Driver\Inc -I .\Drivers\BSP\STM32F429I-Discovery -I .\Drivers\FatFs\src -I .\Drivers\CMSIS\Device\ST\STM32F4xx\Include -I .\Drivers\CMSIS\Include -I .\Drivers\Fonts-IC:\Users\Manuel\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F429xx -DSTM32F429xx -DUSE_STM32F429I_DISCO -DUSE_HAL_DRIVER-o .\objects\spi.o --omf_browse .\objects\spi.crf --depend .\objects\spi.d)
 I (.\inc\spi.h)(0x5F992480)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5EC7CA5C)
 I (.\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5F992480)

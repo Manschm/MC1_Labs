@@ -127,9 +127,18 @@ int main(void)
                      * the average on the lcd 
                      */
                     /// STUDENTS: To be programmed
+				
+					nr_of_samples = accelerometer_read_acceleration(
+										acc_buffer, mode);        
+                        
+					/* calculate average values from acc_buffer*/
+					calculate_acc_average(acc_buffer, 
+										  acceleration_avg, nr_of_samples);
 
-
-
+					/* display the acceleration */
+					display_write_text_and_data(acceleration_avg[0], 
+												acceleration_avg[1],
+												acceleration_avg[2]);
 
                     /// END: To be programmed
                 
