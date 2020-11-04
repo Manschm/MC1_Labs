@@ -155,7 +155,7 @@ uint16_t accelerometer_read_acceleration(int16_t *acceleration, mode_t mode)
 		
 			hal_acc_spi_read_write(NR_TRANSACTIONS_SINGLE, tx_buffer, rx_buffer);
 			calculate_gvalue(acceleration, (uint8_t *)(&rx_buffer[1]));
-			nr_of_samples = (NR_TRANSACTIONS_SINGLE - 1) / 2;
+			nr_of_samples = (NR_TRANSACTIONS_SINGLE - 1) / 6;
 			
             /// END: To be programmed
             break;
