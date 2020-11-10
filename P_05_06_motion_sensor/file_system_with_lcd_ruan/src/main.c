@@ -63,10 +63,9 @@ int main(void)
     
     /* register file system using function file_io_register_filesystem() */
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	halt_on_file_io_error(file_io_register_filesystem());
+	
     /// END: To be programmed    
 
     /* create files with function file_io_create() and handle errors */
@@ -153,10 +152,9 @@ int main(void)
     /* Use function file_io_unregister_filesystem() and handle errors */
     
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	halt_on_file_io_error(file_io_register_filesystem());
+	
     /// END: To be programmed
     
     while(1); // loop forever

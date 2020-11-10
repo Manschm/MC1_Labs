@@ -48,7 +48,7 @@ FILE_IO_STATUS file_io_register_filesystem(void)
     /// STUDENTS: To be programmed
 	
 	if (f_mount(&SDFatFS, SDPath, 1)) {
-		return FILE_IO_MOUNT_ERROR;
+		return FILE_IO_MOUNT_ERROR;	// Non 0 returns are errors
 	} else {
 		return FILE_IO_OK;
 	}
@@ -64,10 +64,13 @@ FILE_IO_STATUS file_io_unregister_filesystem(void)
 {
     /* Exercise 4.1: Unregister filesystem object to the fatfs module */
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	if (f_mount(0, SDPath, 0)) {
+		return FILE_IO_MOUNT_ERROR;	// Non 0 returns are errors
+	} else {
+		return FILE_IO_OK;
+	}
+	
     /// END: To be programmed
     /* End of Exercise 4.1 */
 }
