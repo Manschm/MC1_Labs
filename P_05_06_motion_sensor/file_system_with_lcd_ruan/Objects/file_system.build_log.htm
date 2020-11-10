@@ -8,7 +8,7 @@ Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
 License Information: Manuel Schmid, ZHAW, LIC=----
  
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.31.0.0
+Toolchain:       MDK-ARM Professional  Version: 5.31.0.0
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
@@ -22,30 +22,18 @@ Dialog DLL:      TCM.DLL V1.46.0.0
  
 <h2>Project:</h2>
 C:\Users\Manuel\Documents\GitHub\MC1_Labs\P_05_06_motion_sensor\file_system_with_lcd_ruan\file_system.uvprojx
-Project File Date:  10/28/2020
+Project File Date:  11/10/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling file_io.c...
-src\file_io.c(98): warning:  #940-D: missing return statement at end of non-void function "file_io_create" 
-  }
-src\file_io.c(120): warning:  #940-D: missing return statement at end of non-void function "file_io_write_avg_to_sd_card" 
-  }
-src\file_io.c(144): warning:  #940-D: missing return statement at end of non-void function "file_io_write_raw_to_sd_card" 
-  }
-src\file_io.c(28): warning:  #177-D: variable "avg_path"  was declared but never referenced
-  static const char avg_path[] = "average_values.csv\0";
-src\file_io.c(29): warning:  #177-D: variable "raw_path"  was declared but never referenced
-  static const char raw_path[] = "raw_values.csv\0";
-src\file_io.c: 5 warnings, 0 errors
 compiling main.c...
 src\main.c(51): warning:  #177-D: variable "file_io_status"  was declared but never referenced
       FILE_IO_STATUS file_io_status;
 src\main.c: 1 warning, 0 errors
 linking...
-Program Size: Code=22732 RO-data=7352 RW-data=128 ZI-data=176080  
-".\Objects\file_system.axf" - 0 Error(s), 6 Warning(s).
+Program Size: Code=29580 RO-data=8500 RW-data=144 ZI-data=177360  
+".\Objects\file_system.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -58,7 +46,7 @@ Package Vendor: Keil
   C:\Users\Manuel\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

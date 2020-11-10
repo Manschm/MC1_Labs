@@ -89,10 +89,42 @@ FILE_IO_STATUS file_io_create(FILE_IO_FILE_TYPE type)
      */
     
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	FIL fil;        	// File object
+    FRESULT fr;     	// FatFs return code
+	UINT bw;			// File write count
+	char header_avg[] = "Average Sample Nr.;Acceleration X;Acceleration Y;Acceleration Z";
+	char header_raw[] = "Raw Sample Nr.;Acceleration X;Acceleration Y;Acceleration Z";
+	
+	// Open/Create file and set write mode
+	if (type == FILE_IO_AVERAGE) {
+		if (f_open(&fil, avg_path, FA_WRITE | FA_CREATE_ALWAYS) != FR_OK) {
+			return FILE_IO_OPEN_ERROR;
+		}
+	} else {
+		if (f_open(&fil, raw_path, FA_WRITE | FA_CREATE_ALWAYS) != FR_OK) {
+			return FILE_IO_OPEN_ERROR;
+		}
+	}
+	
+	// Write header
+	if (type == FILE_IO_AVERAGE) {
+		if (f_write(&fil, header_avg, strlen(header_avg), &bw) != FR_OK){
+			return FILE_IO_WRITE_ERROR;
+		}
+	} else {
+		if (f_write(&fil, header_raw, strlen(header_raw), &bw) != FR_OK){
+			return FILE_IO_WRITE_ERROR;
+		}
+	}
+	
+	// Close file
+	if (f_close(&fil) != FR_OK){
+		return FILE_IO_CLOSE_ERROR;
+	}
+	
+	return FILE_IO_OK;
+	
     /// END: To be programmed
     /* End of Exercise 4.2 */
 }
@@ -111,10 +143,36 @@ FILE_IO_STATUS file_io_write_avg_to_sd_card(int16_t *acceleration)
      */
     
     /// STUDENTS: To be programmed
+	
+	FIL fil;        	// File object
+    FRESULT fr;     	// FatFs return code
+	UINT bw;			// File write count
+	static uint32_t sample_count = 1;	// Sample number
+	char buffer[100];	// String buffer
+	uint16_t buf_len;	// Effective string length
+	
+	// Open file and set write mode
+	if (f_open(&fil, avg_path, FA_WRITE | FA_OPEN_APPEND) != FR_OK) {
+		return FILE_IO_OPEN_ERROR;
+	}
+	
+	// Fill buffer
+	buf_len = snprintf(buffer, 100, "\n%u;%d;%d;%d", sample_count,
+													acceleration[0],
+													acceleration[1],
+													acceleration[2]);
+	sample_count++;
 
-
-
-
+	// Write data
+	if (f_write(&fil, buffer, buf_len, &bw) != FR_OK){
+		return FILE_IO_WRITE_ERROR;
+	}
+	
+	// Close file
+	if (f_close(&fil) != FR_OK){
+		return FILE_IO_CLOSE_ERROR;
+	}
+	
     /// END: To be programmed
     /* End of Exercise 4.3 */
 }
@@ -135,10 +193,39 @@ FILE_IO_STATUS file_io_write_raw_to_sd_card(int16_t *acceleration,
      */
     
     /// STUDENTS: To be programmed
+	
+	FIL fil;        	// File object
+    FRESULT fr;     	// FatFs return code
+	UINT bw;			// File write count
+	static uint32_t sample_count = 1;	// Sample number
+	char buffer[100];	// String buffer
+	uint16_t buf_len;	// Effective string length
+	uint16_t i;			// Loop variable
+	
+	// Open file and set write mode
+	if (f_open(&fil, raw_path, FA_WRITE | FA_OPEN_APPEND) != FR_OK) {
+		return FILE_IO_OPEN_ERROR;
+	}
+	
+	for (i = 0; i < nr_of_samples; i++) {
+	// Fill buffer
+		buf_len = snprintf(buffer, 100, "\n%u;%d;%d;%d", sample_count,
+													acceleration[3 * i],
+													acceleration[3 * i + 1],
+													acceleration[3 * i + 2]);
+		sample_count++;
 
-
-
-
+		// Write data
+		if (f_write(&fil, buffer, buf_len, &bw) != FR_OK){
+			return FILE_IO_WRITE_ERROR;
+		}
+	}
+	
+	// Close file
+	if (f_close(&fil) != FR_OK){
+		return FILE_IO_CLOSE_ERROR;
+	}
+	
     /// END: To be programmed
     /* End of Exercise 4.4 */
 }

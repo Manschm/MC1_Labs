@@ -65,15 +65,17 @@ int main(void)
     /// STUDENTS: To be programmed
 	
 	halt_on_file_io_error(file_io_register_filesystem());
+	SET_LED0_ON;
 	
     /// END: To be programmed    
 
     /* create files with function file_io_create() and handle errors */
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	halt_on_file_io_error(file_io_create(FILE_IO_AVERAGE));
+	halt_on_file_io_error(file_io_create(FILE_IO_RAW));
+	SET_LED1_ON;
+	
     /// END: To be programmed
       
     /* read and print ID of accelerometer */    
@@ -138,8 +140,12 @@ int main(void)
 					display_write_text_and_data(acceleration_avg[0], 
 												acceleration_avg[1],
 												acceleration_avg[2]);
-
-                    /// END: To be programmed
+				
+					// Write data to SD card
+					halt_on_file_io_error(file_io_write_avg_to_sd_card(acceleration_avg));
+                    halt_on_file_io_error(file_io_write_raw_to_sd_card(acc_buffer, nr_of_samples));
+                    
+					/// END: To be programmed
                 
                 default:
                     break;
@@ -154,6 +160,8 @@ int main(void)
     /// STUDENTS: To be programmed
 	
 	halt_on_file_io_error(file_io_register_filesystem());
+	SET_LED0_OFF;
+    SET_LED1_OFF;
 	
     /// END: To be programmed
     
