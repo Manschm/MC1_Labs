@@ -46,10 +46,13 @@ FILE_IO_STATUS file_io_register_filesystem(void)
     /* Exercise 4.1: Register filesystem object to the fatfs module */
     /* Use the predefined module-wide variables SDFatFS and SDPath */
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	if (f_mount(&SDFatFS, SDPath, 1)) {
+		return FILE_IO_MOUNT_ERROR;
+	} else {
+		return FILE_IO_OK;
+	}
+	
     /// END: To be programmed
     /* End of Exercise 4.1 */
 }
