@@ -208,7 +208,7 @@ FILE_IO_STATUS file_io_write_raw_to_sd_card(int16_t *acceleration,
 	}
 	
 	for (i = 0; i < nr_of_samples; i++) {
-	// Fill buffer
+		// Fill buffer
 		buf_len = snprintf(buffer, 100, "\n%u;%d;%d;%d", sample_count,
 													acceleration[3 * i],
 													acceleration[3 * i + 1],

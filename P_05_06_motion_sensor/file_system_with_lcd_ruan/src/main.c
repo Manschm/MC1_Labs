@@ -159,7 +159,7 @@ int main(void)
     
     /// STUDENTS: To be programmed
 	
-	halt_on_file_io_error(file_io_register_filesystem());
+	halt_on_file_io_error(file_io_unregister_filesystem());
 	SET_LED0_OFF;
     SET_LED1_OFF;
 	
