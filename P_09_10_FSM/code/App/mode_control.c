@@ -67,9 +67,8 @@ void mode_control_init(void)
     
     // call button_count_init();
     /// STUDENTS: To be programmed
-
-
-
+	
+	button_count_init();
 
     /// END: To be programmed
     
@@ -154,6 +153,29 @@ void mode_control_handle_event(void)
 			case T0_PRESSED:
 				
 				// Switch to egg timer mode
+				state = STATE_BUTTON_COUNT;
+				seg7_register_get_output_callback(button_count_get_output);
+				lcd_register_get_output_callback(button_count_update_display);
+				button_count_put_queue(BCC_DISPLAY_UPDATE_EVENT);
+
+				break;
+			
+			case T1_PRESSED:
+				state = STATE_STOP_WATCH;
+				sw_ctrl_put_queue(SWC_BUTTON_EVENT);
+				break;
+			
+			default:
+				; // No change
+		}
+		break;
+		
+		// Button Count -------------------------------------------------------
+		case STATE_BUTTON_COUNT:
+			switch(event) {
+			case T0_PRESSED:
+				
+				// Switch to egg timer mode
 				state = STATE_EGG_TIMER;
 				seg7_register_get_output_callback(egg_timer_get_output);
 				lcd_register_get_output_callback(et_ctrl_update_display);
@@ -162,8 +184,18 @@ void mode_control_handle_event(void)
 				break;
 			
 			case T1_PRESSED:
-				state = STATE_STOP_WATCH;
-				sw_ctrl_put_queue(SWC_BUTTON_EVENT);
+				state = STATE_BUTTON_COUNT;
+				button_count_put_queue(BCC_BUTTON_T1_EVENT);
+				break;
+			
+			case T2_PRESSED:
+				state = STATE_BUTTON_COUNT;
+				button_count_put_queue(BCC_BUTTON_T2_EVENT);
+				break;
+			
+			case T3_PRESSED:
+				state = STATE_BUTTON_COUNT;
+				button_count_put_queue(BCC_BUTTON_T3_EVENT);
 				break;
 			
 			default:

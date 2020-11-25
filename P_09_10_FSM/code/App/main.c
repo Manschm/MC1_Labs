@@ -58,6 +58,7 @@ int main(void)
 	
 	scheduler_register_task(&task_reload_ctrl, rl_ctrl_handle_event, TEN_MILLISECONDS);
 	scheduler_register_task(&task_stop_watch_ctrl, sw_ctrl_handle_event, TEN_MILLISECONDS);
+	scheduler_register_task(&task_button_count_ctrl, button_count_handle_event, TEN_MILLISECONDS);
 	
     /// END: To be programmed
 
