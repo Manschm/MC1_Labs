@@ -196,7 +196,6 @@ void button_count_update_display(void)
 		case T3:
             lcd_write(LCD_LINE_2, TEXT_LINE_2_T3);
             break;
-
     }
 }
 
