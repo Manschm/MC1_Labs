@@ -96,6 +96,7 @@ void mode_control_handle_event(void)
 				
 					// Switch to reload mode
 					state = STATE_RELOAD_CTRL;
+					seg7_register_get_output_callback(reload_get_output);
 					lcd_register_get_output_callback(rl_ctrl_update_display);
                     rl_ctrl_put_queue(RLC_DISPLAY_UPDATE_EVENT);
 
@@ -120,13 +121,25 @@ void mode_control_handle_event(void)
 				
 				// Switch to egg timer mode
 				state = STATE_EGG_TIMER;
+				seg7_register_get_output_callback(egg_timer_get_output);
 				lcd_register_get_output_callback(et_ctrl_update_display);
 				et_ctrl_put_queue(ETC_DISPLAY_UPDATE_EVENT);
 
 				break;
 			
 			case T1_PRESSED:
-				
+				state = STATE_RELOAD_CTRL;
+				rl_ctrl_put_queue(RLC_BUTTON_SELECT_EVENT);
+				break;
+			
+			case T2_PRESSED:
+				state = STATE_RELOAD_CTRL;
+				rl_ctrl_put_queue(RLC_BUTTON_UP_EVENT);
+				break;
+			
+			case T3_PRESSED:
+				state = STATE_RELOAD_CTRL;
+				rl_ctrl_put_queue(RLC_BUTTON_DOWN_EVENT);
 				break;
 			
 			default:

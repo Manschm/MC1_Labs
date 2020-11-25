@@ -42,11 +42,24 @@ typedef enum {
 } reload_ctrl_events_t;
 */
 
+/* -- Local type definitions
+ * ------------------------------------------------------------------------- */
+
+/* enumerate the states */
+typedef enum {
+    SEC,
+    MIN
+} reload_ctrl_state_t;
+
 /* -- Variables with module-wide scope
  * ------------------------------------------------------------------------- */
 
 /* event queue for this FSM */
 static queue_t rl_ctrl_queue;
+
+/* current state of the FSM */
+static reload_ctrl_state_t state = SEC;
+
 
 /* -- Public function definitions
  * ------------------------------------------------------------------------- */
@@ -69,7 +82,49 @@ void rl_ctrl_handle_event(void)
 
     event = queue_dequeue(&rl_ctrl_queue);
 
-    // FSM here
+    switch (state) {
+        case SEC:
+            switch (event) {
+                case RLC_BUTTON_SELECT_EVENT:
+                    state = MIN;
+                    break;
+				
+                case RLC_BUTTON_UP_EVENT:
+					reload_inc_seconds();
+                    break;
+				
+                case RLC_BUTTON_DOWN_EVENT:
+					reload_dec_seconds();
+                    break;
+				
+                default:
+                    ;// no change
+            }
+            break;
+
+        case MIN:
+            switch (event) {
+                case RLC_BUTTON_SELECT_EVENT:
+                    state = SEC;
+
+                    break;
+				
+                case RLC_BUTTON_UP_EVENT:
+					reload_inc_minutes();
+                    break;
+				
+                case RLC_BUTTON_DOWN_EVENT:
+					reload_dec_minutes();
+                    break;
+				
+                default:
+                    ;// no change
+            }
+            break;
+			
+        default:
+            ;// no change
+    }
 	
     /* Update outputs */
     if (event != RLC_NO_EVENT) {
@@ -84,6 +139,16 @@ void rl_ctrl_handle_event(void)
 void rl_ctrl_update_display(void)
 {
 	lcd_write(LCD_LINE_1, TEXT_LINE_1);
+	
+	switch (state) {
+        case SEC:
+            lcd_write(LCD_LINE_2, TEXT_LINE_2_SEC);
+            break;
+        
+        case MIN:
+            lcd_write(LCD_LINE_2, TEXT_LINE_2_MIN);
+            break;
+    }
 }
 
 /// END: To be programmed
