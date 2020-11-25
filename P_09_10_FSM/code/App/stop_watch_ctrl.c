@@ -30,7 +30,112 @@
 
 /// STUDENTS: To be programmed
 
+/* -- Local type definitions
+ * ------------------------------------------------------------------------- */
+
+/* enumerate the states */
+typedef enum {
+    START,
+	STOP,
+	RESET
+} stop_watch_ctrl_state_t;
+
+/* -- Variables with module-wide scope
+ * ------------------------------------------------------------------------- */
+
+/* event queue for this FSM */
+static queue_t rl_ctrl_queue;
+
+/* current state of the FSM */
+static stop_watch_ctrl_state_t state = START;
 
 
+/* -- Public function definitions
+ * ------------------------------------------------------------------------- */
+
+/**
+ *  Put new event in this FSMs queue.
+ *  event : Event for the FSM to process.
+ */
+void sw_ctrl_put_queue(stop_watch_ctrl_events_t event)
+{
+	queue_enqueue(&rl_ctrl_queue, event);
+}
+
+/**
+ *  Handle events in queue of this FSM.
+ */
+void sw_ctrl_handle_event(void)
+{
+	uint32_t event;
+
+    event = queue_dequeue(&rl_ctrl_queue);
+
+    switch (state) {
+        case START:
+            switch (event) {
+                case SWC_BUTTON_EVENT:
+					stop_watch_start();
+                    state = STOP;
+                    break;
+				
+                default:
+                    ;// no change
+            }
+            break;
+
+        case STOP:
+            switch (event) {
+                case SWC_BUTTON_EVENT:
+					stop_watch_stop();
+                    state = RESET;
+				
+                default:
+                    ;// no change
+            }
+            break;
+			
+		case RESET:
+            switch (event) {
+                case SWC_BUTTON_EVENT:
+					stop_watch_reset();
+                    state = START;
+				
+                default:
+                    ;// no change
+            }
+            break;
+        default:
+            ;// no change
+    }
+	
+    /* Update outputs */
+    if (event != SWC_NO_EVENT) {
+        seg7_output_update();   
+        lcd_output_update();        
+    }
+}
+
+/**
+ *  Update content for display for this FSM.
+ */
+void sw_ctrl_update_display(void)
+{
+	lcd_write(LCD_LINE_1, TEXT_LINE_1);
+	
+	switch (state) {
+        case START:
+            lcd_write(LCD_LINE_2, TEXT_LINE_2_START);
+            break;
+        
+        case RESET:
+            lcd_write(LCD_LINE_2, TEXT_LINE_2_RESET);
+            break;
+		
+		case STOP:
+			lcd_write(LCD_LINE_2, TEXT_LINE_2_STOP);
+            break;
+    }
+}
 
 /// END: To be programmed

@@ -32,16 +32,6 @@
 
 /// STUDENTS: To be programmed
 
-/*
-typedef enum {
-    RLC_NO_EVENT,
-    RLC_DISPLAY_UPDATE_EVENT,   // just update the display
-    RLC_BUTTON_SELECT_EVENT,    // change between seconds and minutes
-    RLC_BUTTON_UP_EVENT,        // increment the selected reload value
-    RLC_BUTTON_DOWN_EVENT       // decrement the selected reload value
-} reload_ctrl_events_t;
-*/
-
 /* -- Local type definitions
  * ------------------------------------------------------------------------- */
 
