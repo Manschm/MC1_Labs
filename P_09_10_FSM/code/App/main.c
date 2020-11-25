@@ -55,9 +55,8 @@ int main(void)
     scheduler_register_task(&task_mode_control, mode_control_handle_event, TEN_MILLISECONDS);
     scheduler_register_task(&task_egg_timer_ctrl, et_ctrl_handle_event, TEN_MILLISECONDS);
     /// STUDENTS: To be programmed
-
-
-
+	
+	scheduler_register_task(&task_reload_ctrl, rl_ctrl_handle_event, TEN_MILLISECONDS);
 
     /// END: To be programmed
 

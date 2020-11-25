@@ -93,9 +93,11 @@ void mode_control_handle_event(void)
             switch (event) {
                 case T0_PRESSED:
                     /// STUDENTS: To be programmed
-
-
-
+				
+					// Switch to reload mode
+					state = STATE_RELOAD_CTRL;
+					lcd_register_get_output_callback(rl_ctrl_update_display);
+                    rl_ctrl_put_queue(RLC_DISPLAY_UPDATE_EVENT);
 
                     /// END: To be programmed
                     break;
@@ -111,8 +113,26 @@ void mode_control_handle_event(void)
             break;
         
         /// STUDENTS: To be programmed    
+			
+		case STATE_RELOAD_CTRL:
+			switch(event) {
+			case T0_PRESSED:
+				
+				// Switch to egg timer mode
+				state = STATE_EGG_TIMER;
+				lcd_register_get_output_callback(et_ctrl_update_display);
+				et_ctrl_put_queue(ETC_DISPLAY_UPDATE_EVENT);
 
-
+				break;
+			
+			case T1_PRESSED:
+				
+				break;
+			
+			default:
+				; // No change
+		}
+		break;
 
 
         /// END: To be programmed
