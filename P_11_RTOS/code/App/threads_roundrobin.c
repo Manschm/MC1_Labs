@@ -51,8 +51,8 @@ static void wait_blocking(uint32_t value);
 
 /// STUDENTS: To be programmed
 
-
-
+osThreadDef(led_on_job, osPriorityNormal, 1, 0);
+osThreadDef(led_off_job, osPriorityNormal, 1, 0);
 
 /// END: To be programmed
 
@@ -79,10 +79,10 @@ void threads_init(void)
     hal_gpio_init_output(GPIOG, gpio);
     
     /// STUDENTS: To be programmed    
-
-
-
-
+	
+	osThreadCreate(osThread(led_on_job), NULL);		// Turn green LED on
+	osThreadCreate(osThread(led_off_job), NULL);	// Turn green LED off
+	
     /// END: To be programmed
 }
 
@@ -92,8 +92,19 @@ void threads_init(void)
 
 /// STUDENTS: To be programmed
 
+// Turn green LED on and wait for 500ms
+void led_on_job(void const *argument)
+{
+	hal_gpio_bit_set(GPIOG, LED_GREEN);
+	wait_blocking(HALF_SECOND);
+}
 
-
+// Turn green LED off and wait for 500ms
+void led_off_job(void const *argument)
+{
+	hal_gpio_bit_reset(GPIOG, LED_GREEN);
+	wait_blocking(HALF_SECOND);
+}
 
 /// END: To be programmed
 
