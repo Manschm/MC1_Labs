@@ -39,8 +39,8 @@
 
 /// STUDENTS: To be programmed
 
-
-
+void led_on_job(void const *argument);
+void led_off_job(void const *argument);
 
 /// END: To be programmed
 static void wait_blocking(uint32_t value);

@@ -53,7 +53,7 @@ static void wait_blocking(uint32_t value);
 /// STUDENTS: To be programmed
 
 osThreadDef(led_green_job, osPriorityNormal, 1, 0);
-osThreadDef(led_red_job, osPriorityAboveNormal, 1, 0);
+osThreadDef(led_red_job, osPriorityNormal, 1, 0);
 
 /// END: To be programmed
 
