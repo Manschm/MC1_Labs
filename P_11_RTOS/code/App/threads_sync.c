@@ -47,9 +47,6 @@
 
 /// STUDENTS: To be programmed
 
-
-
-
 /// END: To be programmed
 
 
@@ -57,9 +54,6 @@
  * ------------------------------------------------------------------------- */
 
 /// STUDENTS: To be programmed
-
-
-
 
 /// END: To be programmed
 
@@ -87,9 +81,6 @@ void threads_init(void)
     
     /// STUDENTS: To be programmed    
 
-
-
-
     /// END: To be programmed
 }
 
@@ -98,9 +89,6 @@ void threads_init(void)
  * ------------------------------------------------------------------------- */
 
 /// STUDENTS: To be programmed
-
-
-
 
 /// END: To be programmed
 
