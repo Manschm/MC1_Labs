@@ -107,19 +107,25 @@ void threads_init(void)
 // Turn green LED on and off for 500ms each
 void led_green_job(void const *argument)
 {
-	hal_gpio_bit_set(GPIOG, LED_GREEN);
-	wait_blocking(HALF_SECOND);
-	hal_gpio_bit_reset(GPIOG, LED_GREEN);
-	wait_blocking(HALF_SECOND);
+	while (1) {
+		hal_gpio_bit_set(GPIOG, LED_GREEN);
+		wait_blocking(HALF_SECOND);
+		hal_gpio_bit_reset(GPIOG, LED_GREEN);
+		wait_blocking(HALF_SECOND);
+		osThreadYield();
+	}
 }
 
 // Turn red LED on and off for 500ms each
 void led_red_job(void const *argument)
 {
-	hal_gpio_bit_set(GPIOG, LED_RED);
-	wait_blocking(HALF_SECOND);
-	hal_gpio_bit_reset(GPIOG, LED_RED);
-	wait_blocking(HALF_SECOND);
+	while (1) {
+		hal_gpio_bit_set(GPIOG, LED_RED);
+		wait_blocking(HALF_SECOND);
+		hal_gpio_bit_reset(GPIOG, LED_RED);
+		wait_blocking(HALF_SECOND);
+		osThreadYield();
+	}
 }
 
 /// END: To be programmed
