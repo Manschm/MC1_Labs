@@ -93,22 +93,27 @@ void threads_init(void)
 
 /// STUDENTS: To be programmed
 
-// Turn green LED on and off for 500ms each
+// Turn the green LED on and off for 500ms
 void led_green_job(void const *argument)
 {
-	hal_gpio_bit_set(GPIOG, LED_GREEN);
-	wait_blocking(HALF_SECOND);
-	hal_gpio_bit_reset(GPIOG, LED_GREEN);
-	wait_blocking(HALF_SECOND);
+	while (1) {
+		hal_gpio_bit_set(GPIOG, LED_GREEN);
+		wait_blocking(HALF_SECOND);
+		hal_gpio_bit_set(GPIOG, LED_GREEN);
+		wait_blocking(HALF_SECOND);
+	}
 }
 
-// Turn red LED on and off for 500ms each
+// Turn the red LED on and off for 500ms with an 40ms delay at the end
 void led_red_job(void const *argument)
 {
-	hal_gpio_bit_set(GPIOG, LED_RED);
-	wait_blocking(HALF_SECOND);
-	hal_gpio_bit_reset(GPIOG, LED_RED);
-	wait_blocking(HALF_SECOND);
+	while (1) {
+		hal_gpio_bit_set(GPIOG, LED_RED);
+		wait_blocking(HALF_SECOND);
+		hal_gpio_bit_reset(GPIOG, LED_RED);
+		wait_blocking(HALF_SECOND);
+		osDelay(40u);
+	}
 }
 
 /// END: To be programmed

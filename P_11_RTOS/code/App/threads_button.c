@@ -30,8 +30,7 @@
 #define USER_BUTTON         (0x1 << 0u)
 /// STUDENTS: To be programmed
 
-
-
+#define DEBOUNCE_LEN		10
 
 /// END: To be programmed
 
@@ -41,7 +40,7 @@
 
 /// STUDENTS: To be programmed
 
-
+osThreadId tid_thread_2;
 
 
 /// END: To be programmed
@@ -52,8 +51,8 @@
 
 /// STUDENTS: To be programmed
 
-
-
+void thread_1(void const *argument);
+void thread_2(void const *argument);
 
 /// END: To be programmed
 
@@ -63,8 +62,8 @@
 
 /// STUDENTS: To be programmed
 
-
-
+osThreadDef(thread_1, osPriorityNormal, 1, 0);
+osThreadDef(thread_2, osPriorityNormal, 1, 0);
 
 /// END: To be programmed
 
@@ -98,10 +97,10 @@ void threads_init(void)
     hal_gpio_init_output(GPIOG, gpio_out);
     
     /// STUDENTS: To be programmed    
-
-
-
-
+	
+	tid_thread_2 = osThreadCreate(osThread(thread_2), NULL);
+	osThreadCreate(osThread(thread_1), NULL);
+	
     /// END: To be programmed
 }
 
@@ -111,8 +110,60 @@ void threads_init(void)
 
 /// STUDENTS: To be programmed
 
+// Sends a signal if the user button is pressed (falling edge)
+void thread_1(void const *argument)
+{
+	static uint16_t input_buffer[DEBOUNCE_LEN] = {0};
+	static uint16_t idx_ctr = 0;
+	static uint8_t	signal_sent = 0;
+	
+	while (1) {
+		uint8_t btn_pressed = 1;
+		uint16_t i;
+		
+		// Read button
+		input_buffer[idx_ctr] = hal_gpio_input_read(GPIOA) & USER_BUTTON;
+		printf("Input is: %x\n", input_buffer[idx_ctr]);
+		idx_ctr++;
+		
+		if (idx_ctr >= DEBOUNCE_LEN) {	// Check if end of buffer was reached
+			idx_ctr = 0;
+			printf("Reseting index pointer.\n");
+		}
+		
+		for (i = 0; i < DEBOUNCE_LEN; i++) {	// Do some debouncing
+			if (input_buffer[i] == 0) {
+				btn_pressed = 0;
+				signal_sent = 0;
+				printf("Button isn't pressed.\n");
+				break;
+			}
+		}
+		
+		// Check if button was pressed and if a message hasn't already been sent
+		if (!signal_sent && btn_pressed) {
+			printf("Button is pressed. Signal sent.\n");
+			signal_sent = 1;
+			osSignalSet(tid_thread_2, 0x1);
+		}
+		osDelay(5u);
+	}
+}
 
-
+// Toggles the green LED when a signal is received
+void thread_2(void const *argument)
+{
+	osEvent evt;
+	
+	while (1) {
+		evt = osSignalWait(0x1, osWaitForever);	// Wait for event
+		
+		if (evt.status == osEventSignal) {		// Toggle LED
+			hal_gpio_bit_toggle(GPIOG, LED_GREEN);
+			printf("Signal received.\n");
+		}
+	}
+}
 
 /// END: To be programmed
 
