@@ -40,8 +40,8 @@
 
 /// STUDENTS: To be programmed
 
-
-
+void led_green_job(void const *argument);
+void led_red_job(void const *argument);
 
 /// END: To be programmed
 static void wait_blocking(uint32_t value);
@@ -52,8 +52,8 @@ static void wait_blocking(uint32_t value);
 
 /// STUDENTS: To be programmed
 
-
-
+osThreadDef(led_green_job, osPriorityNormal, 1, 0);
+osThreadDef(led_red_job, osPriorityAboveNormal, 1, 0);
 
 /// END: To be programmed
 
@@ -80,10 +80,10 @@ void threads_init(void)
     hal_gpio_init_output(GPIOG, gpio);
     
     /// STUDENTS: To be programmed    
-
-
-
-
+	
+	osThreadCreate(osThread(led_green_job), NULL);	// Toggle green LED once
+	osThreadCreate(osThread(led_red_job), NULL);	// Toggle red LED once
+	
     /// END: To be programmed
 }
 
@@ -93,8 +93,23 @@ void threads_init(void)
 
 /// STUDENTS: To be programmed
 
+// Turn green LED on and off for 500ms each
+void led_green_job(void const *argument)
+{
+	hal_gpio_bit_set(GPIOG, LED_GREEN);
+	wait_blocking(HALF_SECOND);
+	hal_gpio_bit_reset(GPIOG, LED_GREEN);
+	wait_blocking(HALF_SECOND);
+}
 
-
+// Turn red LED on and off for 500ms each
+void led_red_job(void const *argument)
+{
+	hal_gpio_bit_set(GPIOG, LED_RED);
+	wait_blocking(HALF_SECOND);
+	hal_gpio_bit_reset(GPIOG, LED_RED);
+	wait_blocking(HALF_SECOND);
+}
 
 /// END: To be programmed
 

@@ -81,8 +81,19 @@ void threads_init(void)
     
     /// STUDENTS: To be programmed      
 	
-	osThreadCreate(osThread(led_green_job), NULL);	// Toggle green LED once
-	osThreadCreate(osThread(led_red_job), NULL);	// Toggle red LED once
+	// Thread that toggles the green LED once
+	if (osThreadCreate(osThread(led_green_job), NULL) != NULL) {
+		printf("Thread 1 created!\n");
+	} else {
+		printf("Thread 1 not created!\n");
+	}
+	
+	// Thread that toggles the green LED once
+	if (osThreadCreate(osThread(led_red_job), NULL) != NULL) {
+		printf("Thread 2 created!\n");
+	} else {
+		printf("Thread 2 not created!\n");
+	}
 	
     /// END: To be programmed
 }
