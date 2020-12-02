@@ -42,7 +42,6 @@
 
 osThreadId tid_thread_2;
 
-
 /// END: To be programmed
 
 
