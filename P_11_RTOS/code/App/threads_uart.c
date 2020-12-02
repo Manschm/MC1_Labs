@@ -24,7 +24,7 @@
 /* -- Macros
  * ------------------------------------------------------------------------- */
 
-//#define MUTEX_ENABLE        (1)
+#define MUTEX_ENABLE        (1)
 #define HALF_SECOND         (0x7fffff)
 
 

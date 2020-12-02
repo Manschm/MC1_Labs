@@ -30,11 +30,11 @@ Rebuild Project 'Button' - Target 'Target 1'
 assembling datainit_ctboard.s...
 assembling startup_ctboard.s...
 compiling uart.c...
-compiling threads_button.c...
-compiling RTX_Conf_CM.c...
 compiling main.c...
-compiling system_ctboard.c...
+compiling threads_button.c...
 compiling retarget_io.c...
+compiling RTX_Conf_CM.c...
+compiling system_ctboard.c...
 compiling hal_fmc.c...
 compiling hal_gpio.c...
 compiling hal_pwr.c...
@@ -80,34 +80,34 @@ Package Vendor: Keil
    * Component: ::CMSIS:RTOS:1.0.0 (API)
 
    * Component: ARM::CMSIS:RTOS:Keil RTX:4.82.0
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\main.c
       Include file:  CMSIS\RTOS\RTX\INC\cmsis_os.h
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MailQueue.c
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MsgQueue.c
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Semaphore.c
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MemPool.c
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Thread.c
       Source file:   CMSIS\RTOS\RTX\Templates\RTX_Conf_CM.c
       Include file:  CMSIS\RTOS\RTX\UserCodeTemplates\osObjects.h
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\main.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MailQueue.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MemPool.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MsgQueue.c
       Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Mutex.c
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Timer.c
-      Source file:   CMSIS\RTOS\RTX\SRC\ARM\SVC_Table.s
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Semaphore.c
       Library file:  CMSIS\RTOS\RTX\LIB\ARM\RTX_CM4.lib
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Thread.c
+      Source file:   CMSIS\RTOS\RTX\SRC\ARM\SVC_Table.s
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Timer.c
 
    * Component: InES::Device:Startup:4.0.1
-      Include file:  Device\Include\m4\platform_ctboard.h
-      Source file:   Device\Source\startup_ctboard.s
-      Include file:  Device\Include\reg_ctboard.h
       Include file:  Device\Include\reg_stm32f4xx.h
       Include file:  Device\Include\system_ctboard.h
-      Source file:   Device\Source\datainit_ctboard.s
+      Include file:  Device\Include\reg_ctboard.h
+      Include file:  Device\Include\m4\platform_ctboard.h
+      Source file:   Device\Source\startup_ctboard.s
       Source file:   Device\Source\system_ctboard.c
+      Source file:   Device\Source\datainit_ctboard.s
 
    * Component: InES::HAL:FMC:3.0.1
-      Source file:   HAL\Source\hal_fmc.c
       Include file:  HAL\Include\hal_common.h
-      Include file:  Device\Include\reg_stm32f4xx.h
       Include file:  HAL\Include\hal_fmc.h
+      Source file:   HAL\Source\hal_fmc.c
+      Include file:  Device\Include\reg_stm32f4xx.h
 
    * Component: InES::HAL:GPIO:4.0.1
       Include file:  Device\Include\reg_stm32f4xx.h
@@ -117,21 +117,21 @@ Package Vendor: Keil
 
    * Component: InES::HAL:PWR:2.2.0
       Include file:  HAL\Include\hal_common.h
-      Include file:  HAL\Include\hal_pwr.h
-      Source file:   HAL\Source\hal_pwr.c
       Include file:  Device\Include\reg_stm32f4xx.h
+      Source file:   HAL\Source\hal_pwr.c
+      Include file:  HAL\Include\hal_pwr.h
 
    * Component: InES::HAL:RCC:4.0.1
-      Source file:   HAL\Source\hal_rcc.c
       Include file:  HAL\Include\hal_common.h
       Include file:  HAL\Include\hal_rcc.h
+      Source file:   HAL\Source\hal_rcc.c
       Include file:  Device\Include\reg_stm32f4xx.h
 
    * Component: Keil::Compiler:I/O:STDOUT:User:1.1.0
       Source file:   Source\retarget_io.c
-      Source file:   Template\stdout_USART.c
       Source file:   Template\stdout_user.c
       Source file:   Template\stdout_display.c
+      Source file:   Template\stdout_USART.c
 Build Time Elapsed:  00:00:01
 </pre>
 </body>
