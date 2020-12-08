@@ -45,8 +45,25 @@ TEST_GROUP(FSM_system)
 
 /// STUDENTS: To be programmed
 
-
-
+TEST(FSM_system, car_e2_ped_w_ev_car_e1)
+{
+	state_t returned_state;
+	
+	fsm_set_state(CAR_E2_PED_W);
+	
+	// Set button CAR_E1
+	GPIOB->IDR |= MASK_CAR_E1;
+	
+	returned_state = fsm_handle_event(ed_get_event());
+	
+	printf("Returned state: %d, expected state: %d\n", returned_state, CAR_E2_PED_W_CAR_E1_E2);
+    CHECK_TEXT(returned_state == CAR_E2_PED_W_CAR_E1_E2, "Wrong state!");
+	
+	// Clear button CAR_E1
+	GPIOB->IDR &= ~MASK_CAR_E1;
+	
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -66,8 +83,25 @@ TEST_GROUP(FSM_system)
 
 /// STUDENTS: To be programmed
 
-
-
+TEST(FSM_system, car_e2_ped_w_ev_ped_e)
+{
+	state_t returned_state;
+	
+	fsm_set_state(CAR_E2_PED_W);
+	
+	// Set button CAR_E1
+	GPIOB->IDR |= MASK_PED_E;
+	
+	returned_state = fsm_handle_event(ed_get_event());
+	
+	printf("Returned state: %d, expected state: %d\n", returned_state, CAR_E2_PED_W_PED_E_W);
+    CHECK_TEXT(returned_state == CAR_E2_PED_W_PED_E_W, "Wrong state!");
+	
+	// Clear button CAR_E1
+	GPIOB->IDR &= ~MASK_PED_E;
+	
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -88,7 +122,26 @@ TEST_GROUP(FSM_system)
 
 /// STUDENTS: To be programmed
 
-
-
+TEST(FSM_system, car_e2_ped_w_to_invalid)
+{
+	state_t returned_state;
+	
+	fsm_set_state(CAR_E2_PED_W);
+	
+	// Set all buttons except CAR_E1 and PED_E
+	GPIOB->IDR |= MASK_CAR_W | MASK_CAR_S | MASK_CAR_E2 | MASK_PED_W;
+	
+	timer_start(1u);
+	
+	returned_state = fsm_handle_event(ed_get_event());
+	
+	printf("Returned state: %d, expected state: %d\n", returned_state, CAR_E2_PED_W);
+    CHECK_TEXT(returned_state == CAR_E2_PED_W, "Wrong state!");
+	
+	// Clear all buttons except CAR_E1 and PED_E
+	GPIOB->IDR &= ~(MASK_CAR_W | MASK_CAR_S | MASK_CAR_E2 | MASK_PED_W);
+	
+    printf("\n");
+}
 
 /// END: To be programmed
