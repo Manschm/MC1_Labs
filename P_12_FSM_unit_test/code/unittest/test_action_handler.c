@@ -65,8 +65,24 @@ TEST(action_handler, port_access)
 
 /// STUDENTS: To be programmed
 
+TEST(action_handler, single_signal_green_set)
+{
+    uint16_t port_old;
+    uint16_t port_new;
 
+    port_old = hal_gpio_output_read(GPIOA);
+    printf("Initial state of GPIOA->ODR: %04X\n", port_old);
 
+    ah_set_signal(SIGNAL_CAR_W, COLOR_GREEN);
+    
+    port_new = hal_gpio_output_read(GPIOA);
+    printf("New state of GPIOA->ODR: %04X\n", port_new);
+
+    CHECK_TEXT(port_old != port_new, "old and new port should not be equal");
+    CHECK_TEXT(COLOR_GREEN == port_new, "Output port not set to correct value");
+
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -82,8 +98,24 @@ TEST(action_handler, port_access)
 
 /// STUDENTS: To be programmed
 
+TEST(action_handler, single_signal_dark_set)
+{
+    uint16_t port_old;
+    uint16_t port_new;
 
+    port_old = hal_gpio_output_read(GPIOA);
+    printf("Initial state of GPIOA->ODR: %04X\n", port_old);
 
+    ah_set_signal(SIGNAL_CAR_W, COLOR_NO);
+    
+    port_new = hal_gpio_output_read(GPIOA);
+    printf("New state of GPIOA->ODR: %04X\n", port_new);
+
+    CHECK_TEXT(port_old != port_new, "old and new port should not be equal");
+    CHECK_TEXT(COLOR_NO == port_new, "Output port not set to correct value");
+
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -98,7 +130,37 @@ TEST(action_handler, port_access)
 
 /// STUDENTS: To be programmed
 
+TEST(action_handler, all_signals_green_set)
+{
+    uint16_t port_old;
+    uint16_t port_new;
+	uint16_t compare_value;
 
+    port_old = hal_gpio_output_read(GPIOA);
+    printf("Initial state of GPIOA->ODR: %04X\n", port_old);
 
+    ah_set_signal(SIGNAL_CAR_W, COLOR_GREEN);
+	ah_set_signal(SIGNAL_CAR_S, COLOR_GREEN);
+	ah_set_signal(SIGNAL_CAR_E1, COLOR_GREEN);
+	ah_set_signal(SIGNAL_CAR_E2, COLOR_GREEN);
+	ah_set_signal(SIGNAL_PED_W, COLOR_GREEN);
+	ah_set_signal(SIGNAL_PED_E, COLOR_GREEN);
+    
+    port_new = hal_gpio_output_read(GPIOA);
+    printf("New state of GPIOA->ODR: %04X\n", port_new);
+	
+	// Value of GPIOA->ODR when all signals are green
+	compare_value = (COLOR_GREEN << SIGNAL_CAR_W) |
+					(COLOR_GREEN << SIGNAL_CAR_S) |
+					(COLOR_GREEN << SIGNAL_CAR_E1) |
+					(COLOR_GREEN << SIGNAL_CAR_E2) |
+					(COLOR_GREEN << SIGNAL_PED_W) |
+					(COLOR_GREEN << SIGNAL_PED_E);
+
+    CHECK_TEXT(port_old != port_new, "old and new port should not be equal");
+    CHECK_TEXT(COLOR_RED == port_new, "Output port not set to correct value");
+
+    printf("\n");
+}
 
 /// END: To be programmed
