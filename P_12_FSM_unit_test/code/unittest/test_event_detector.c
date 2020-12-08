@@ -34,8 +34,19 @@ TEST_GROUP(event_detector)
 
 /// STUDENTS: To be programmed
 
+TEST(event_detector, test_no_timeout_event)
+{
+	event_t returned_event;
+	
+	timer_start(10u);
+	
+	returned_event = ed_get_event();
+	
+	printf("Returned event: %d, not wanted event: %d\n", returned_event, TIME_OUT);
+    CHECK_TEXT(returned_event != TIME_OUT, "Timeout occured!");
 
-
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -49,8 +60,19 @@ TEST_GROUP(event_detector)
 
 /// STUDENTS: To be programmed
 
+TEST(event_detector, test_timeout_event)
+{
+	event_t returned_event;
+	
+	timer_start(1u);
+	
+	returned_event = ed_get_event();
+	
+	printf("Returned event: %d, expected event: %d\n", returned_event, TIME_OUT);
+    CHECK_TEXT(returned_event == TIME_OUT, "Timeout has not occured!");
 
-
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -64,8 +86,19 @@ TEST_GROUP(event_detector)
 
 /// STUDENTS: To be programmed
 
+TEST(event_detector, test_edge_detection_no_edge)
+{
+	event_t returned_event;
+	
+	GPIOB->IDR = 0x00000000;	// Set input register (IDR) to zero
+	
+	returned_event = ed_get_event();
+	
+	printf("Returned event: %d, expected event: %d\n", returned_event, NO_EVENT);
+    CHECK_TEXT(returned_event == NO_EVENT, "An Event has occured!");
 
-
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -80,8 +113,23 @@ TEST_GROUP(event_detector)
 
 /// STUDENTS: To be programmed
 
+TEST(event_detector, test_edge_detection_rising)
+{
+	event_t returned_event;
+	
+	GPIOB->IDR = 0x00000000;	// Set input register (IDR) to zero
+	
+	ed_get_event();
+	
+	GPIOB->IDR = MASK_CAR_W;	// Set button CAR_W
+	
+	returned_event = ed_get_event();
+	
+	printf("Returned event: %d, expected event: %d\n", returned_event, EV_CAR_W);
+    CHECK_TEXT(returned_event == EV_CAR_W, "Incorrect Event has occured!");
 
-
+    printf("\n");
+}
 
 /// END: To be programmed
 
@@ -96,7 +144,22 @@ TEST_GROUP(event_detector)
 
 /// STUDENTS: To be programmed
 
+TEST(event_detector, test_edge_detection_falling)
+{
+	event_t returned_event;
+	
+	GPIOB->IDR |= MASK_CAR_W;	// Set button CAR_W
+	
+	ed_get_event();
+	
+	GPIOB->IDR &= ~MASK_CAR_W;	// Clear button CAR_W
+	
+	returned_event = ed_get_event();
+	
+	printf("Returned event: %d, expected event: %d\n", returned_event, NO_EVENT);
+    CHECK_TEXT(returned_event == NO_EVENT, "An Event has occured!");
 
-
+    printf("\n");
+}
 
 /// END: To be programmed

@@ -49,7 +49,7 @@ TEST(action_handler, port_access)
     port_new = hal_gpio_output_read(GPIOA);
     printf("New state of GPIOA->ODR: %04X\n", port_new);
 
-    CHECK_TEXT(port_old != port_new, "old and new port should not be equal");
+    CHECK_TEXT(port_old != port_new, "Old and new port should not be equal");
     CHECK_TEXT(COLOR_RED == port_new, "Output port not set to correct value");
 
     printf("\n");
@@ -78,7 +78,7 @@ TEST(action_handler, single_signal_green_set)
     port_new = hal_gpio_output_read(GPIOA);
     printf("New state of GPIOA->ODR: %04X\n", port_new);
 
-    CHECK_TEXT(port_old != port_new, "old and new port should not be equal");
+    CHECK_TEXT(port_old != port_new, "Old and new port should not be equal");
     CHECK_TEXT(COLOR_GREEN == port_new, "Output port not set to correct value");
 
     printf("\n");
@@ -111,7 +111,7 @@ TEST(action_handler, single_signal_dark_set)
     port_new = hal_gpio_output_read(GPIOA);
     printf("New state of GPIOA->ODR: %04X\n", port_new);
 
-    CHECK_TEXT(port_old != port_new, "old and new port should not be equal");
+    CHECK_TEXT(port_old != port_new, "Old and new port should not be equal");
     CHECK_TEXT(COLOR_NO == port_new, "Output port not set to correct value");
 
     printf("\n");
@@ -157,7 +157,7 @@ TEST(action_handler, all_signals_green_set)
 					(COLOR_GREEN << SIGNAL_PED_W) |
 					(COLOR_GREEN << SIGNAL_PED_E);
 
-    CHECK_TEXT(port_old != port_new, "old and new port should not be equal");
+    CHECK_TEXT(port_old != port_new, "Old and new port should not be equal");
     CHECK_TEXT(COLOR_RED == port_new, "Output port not set to correct value");
 
     printf("\n");
