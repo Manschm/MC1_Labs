@@ -27,38 +27,33 @@ Project File Date:  12/09/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
-assembling startup_ctboard.s...
-compiling adc.c...
 assembling datainit_ctboard.s...
+assembling startup_ctboard.s...
 compiling timers_freq.c...
-App\timers_freq.c(113): warning:  #177-D: variable "timer_base"  was declared but never referenced
+App\timers_freq.c(196): warning:  #177-D: variable "timer_base"  was declared but never referenced
       hal_timer_base_init_t timer_base;
-App\timers_freq.c(190): warning:  #177-D: variable "timer_base"  was declared but never referenced
-      hal_timer_base_init_t timer_base;
-App\timers_freq.c(191): warning:  #177-D: variable "timer_output"  was declared but never referenced
+App\timers_freq.c(197): warning:  #177-D: variable "timer_output"  was declared but never referenced
       hal_timer_output_init_t timer_output;
-App\timers_freq.c(295): warning:  #940-D: missing return statement at end of non-void function "read_display_hex_switch" 
+App\timers_freq.c(304): warning:  #940-D: missing return statement at end of non-void function "read_display_hex_switch" 
   }
-App\timers_freq.c(287): warning:  #177-D: function "read_display_hex_switch"  was declared but never referenced
+App\timers_freq.c(296): warning:  #177-D: function "read_display_hex_switch"  was declared but never referenced
   static uint8_t read_display_hex_switch(void)
-App\timers_freq.c: 5 warnings, 0 errors
-compiling display_freq.c...
+App\timers_freq.c: 4 warnings, 0 errors
+compiling adc.c...
 compiling main.c...
-App\main.c(57): warning:  #550-D: variable "capture_val_tim1"  was set but never used
-  	uint16_t capture_val_tim1;
-App\main.c: 1 warning, 0 errors
+compiling display_freq.c...
 compiling system_ctboard.c...
 compiling hal_timer.c...
-compiling hal_ct_seg7.c...
 compiling hal_ct_lcd.c...
+compiling hal_ct_seg7.c...
 compiling hal_dma.c...
 compiling hal_fmc.c...
 compiling hal_pwr.c...
 compiling hal_rcc.c...
 compiling hal_gpio.c...
 linking...
-Program Size: Code=4716 RO-data=428 RW-data=12 ZI-data=8228  
-".\Objects\Project.axf" - 0 Error(s), 6 Warning(s).
+Program Size: Code=5628 RO-data=428 RW-data=12 ZI-data=8228  
+".\Objects\Project.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -84,35 +79,35 @@ Package Vendor: InES
 <h2>Collection of Component Files used:</h2>
 
    * Component: InES::Device:Startup:4.0.1
-      Include file:  Device\Include\system_ctboard.h
-      Source file:   Device\Source\startup_ctboard.s
-      Source file:   Device\Source\datainit_ctboard.s
-      Include file:  Device\Include\m0\platform_ctboard.h
       Include file:  Device\Include\reg_stm32f4xx.h
       Include file:  Device\Include\reg_ctboard.h
+      Include file:  Device\Include\m0\platform_ctboard.h
+      Source file:   Device\Source\startup_ctboard.s
       Source file:   Device\Source\system_ctboard.c
+      Include file:  Device\Include\system_ctboard.h
+      Source file:   Device\Source\datainit_ctboard.s
 
    * Component: InES::HAL:CT Board:7 segment:4.0.0
-      Include file:  HAL\Include\hal_ct_seg7.h
-      Source file:   HAL\Source\hal_ct_seg7.c
       Include file:  Device\Include\reg_ctboard.h
+      Source file:   HAL\Source\hal_ct_seg7.c
+      Include file:  HAL\Include\hal_ct_seg7.h
 
    * Component: InES::HAL:CT Board:LCD:3.0.3
       Source file:   HAL\Source\hal_ct_lcd.c
-      Include file:  Device\Include\reg_ctboard.h
       Include file:  HAL\Include\hal_ct_lcd.h
+      Include file:  Device\Include\reg_ctboard.h
 
    * Component: InES::HAL:DMA:2.2.0
-      Include file:  HAL\Include\hal_dma.h
-      Include file:  HAL\Include\hal_common.h
       Source file:   HAL\Source\hal_dma.c
+      Include file:  HAL\Include\hal_dma.h
       Include file:  Device\Include\reg_stm32f4xx.h
+      Include file:  HAL\Include\hal_common.h
 
    * Component: InES::HAL:FMC:3.0.1
-      Include file:  HAL\Include\hal_common.h
-      Include file:  HAL\Include\hal_fmc.h
-      Include file:  Device\Include\reg_stm32f4xx.h
       Source file:   HAL\Source\hal_fmc.c
+      Include file:  HAL\Include\hal_fmc.h
+      Include file:  HAL\Include\hal_common.h
+      Include file:  Device\Include\reg_stm32f4xx.h
 
    * Component: InES::HAL:GPIO:4.0.1
       Include file:  Device\Include\reg_stm32f4xx.h
@@ -123,14 +118,14 @@ Package Vendor: InES
    * Component: InES::HAL:PWR:2.2.0
       Include file:  Device\Include\reg_stm32f4xx.h
       Include file:  HAL\Include\hal_pwr.h
-      Source file:   HAL\Source\hal_pwr.c
       Include file:  HAL\Include\hal_common.h
+      Source file:   HAL\Source\hal_pwr.c
 
    * Component: InES::HAL:RCC:4.0.1
+      Source file:   HAL\Source\hal_rcc.c
       Include file:  HAL\Include\hal_rcc.h
       Include file:  Device\Include\reg_stm32f4xx.h
       Include file:  HAL\Include\hal_common.h
-      Source file:   HAL\Source\hal_rcc.c
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

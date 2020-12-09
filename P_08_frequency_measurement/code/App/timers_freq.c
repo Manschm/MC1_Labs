@@ -174,9 +174,14 @@ void init_measure_timer(uint16_t prescaler)
 
     /// STUDENTS: To be programmed
 	
-	hal_timer_init_base(TIM1, 
-
-
+    timer_base.count = 0;
+    timer_base.prescaler = prescaler_tim1;
+    timer_base.run_mode = HAL_TIMER_RUN_CONTINOUS;
+    timer_base.mode = HAL_TIMER_MODE_UP;
+    timer_base.master_mode = HAL_TIMER_MASTER_RESET;
+	
+	hal_timer_init_base(TIM1, timer_base);
+	hal_timer_irq_set(TIM1, HAL_TIMER_IRQ_CC1, ENABLED);
 
     /// END: To be programmed
 }
