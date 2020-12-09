@@ -102,6 +102,8 @@ TEST(action_handler, single_signal_dark_set)
 {
     uint16_t port_old;
     uint16_t port_new;
+	
+	ah_set_signal(SIGNAL_CAR_W, COLOR_GREEN);
 
     port_old = hal_gpio_output_read(GPIOA);
     printf("Initial state of GPIOA->ODR: %04X\n", port_old);

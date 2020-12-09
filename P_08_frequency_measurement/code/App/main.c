@@ -58,8 +58,6 @@ int main(void)
 	uint32_t capture_val_tim1;
 	uint32_t freq_tim1;
 
-
-
     /// END: To be programmed
   
     uint32_t wait = 0;
@@ -105,6 +103,9 @@ int main(void)
 		// Get capture value and calculate frequency
 		capture_val_tim1 = get_capture_value();
 		freq_tim1 = COUNTER_CLOCK_TIM1 / capture_val_tim1;
+		
+		// Update TIM8
+		set_prescaler_freq_mul();
 		
 		// Display frequency of external signal
 		write_tim1_freq_to_lcd(freq_tim1);

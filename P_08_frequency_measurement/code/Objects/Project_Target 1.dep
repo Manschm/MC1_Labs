@@ -4,7 +4,7 @@ F (.\App\display_freq.c)(0x5FCE41E4)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork 
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5EC7CA5C)
 I (App\display_freq.h)(0x5FCE41E4)
 I (C:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\HAL\Include\hal_ct_lcd.h)(0x5C517478)
-F (.\App\main.c)(0x5FD00F04)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include\m0-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\HAL\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -D_RTE_ -D_RTE_-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\App\main.c)(0x5FD0980C)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include\m0-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\HAL\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -D_RTE_ -D_RTE_-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5EC7CA5C)
 I (C:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include\reg_ctboard.h)(0x5C6AA868)
 I (App\display_freq.h)(0x5FCE41E4)
@@ -13,7 +13,7 @@ I (C:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Inclu
 I (C:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\HAL\Include\hal_common.h)(0x5C517478)
 I (App\timers_freq.h)(0x5FCE41E4)
 I (App\adc.h)(0x5FCE41E4)
-F (.\App\timers_freq.c)(0x5FD090FD)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include\m0-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\HAL\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -D_RTE_ -D_RTE_-o .\objects\timers_freq.o --omf_browse .\objects\timers_freq.crf --depend .\objects\timers_freq.d)
+F (.\App\timers_freq.c)(0x5FD0A456)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include\m0-IC:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\HAL\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -D_RTE_ -D_RTE_-o .\objects\timers_freq.o --omf_browse .\objects\timers_freq.crf --depend .\objects\timers_freq.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5EC7CA5C)
 I (C:\Users\Manuel\AppData\Local\Arm\Packs\InES\CTBoard14_DFP\4.0.2\Device\Include\reg_ctboard.h)(0x5C6AA868)
 I (App\timers_freq.h)(0x5FCE41E4)

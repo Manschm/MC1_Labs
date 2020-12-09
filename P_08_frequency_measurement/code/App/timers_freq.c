@@ -174,7 +174,7 @@ void init_measure_timer(uint16_t prescaler)
 
     /// STUDENTS: To be programmed
 	
-    timer_base.count = 0;
+    timer_base.count = 0xFFFF;
     timer_base.prescaler = prescaler_tim1;
     timer_base.run_mode = HAL_TIMER_RUN_CONTINOUS;
     timer_base.mode = HAL_TIMER_MODE_UP;
@@ -219,10 +219,15 @@ void init_frequency_multiplier(void)
      */
      
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	timer_base.count = 0xFFFF;
+    timer_base.prescaler = prescaler_tim1;
+    timer_base.run_mode = HAL_TIMER_RUN_CONTINOUS;
+    timer_base.mode = HAL_TIMER_MODE_DOWN;
+    timer_base.master_mode = HAL_TIMER_MASTER_RESET;
+	
+	hal_timer_init_base(TIM8, timer_base);
+	
     /// END: To be programmed
 
 
@@ -234,10 +239,14 @@ void init_frequency_multiplier(void)
      */
      
     /// STUDENTS: To be programmed
-
-
-
-
+	
+    timer_output.ccr_value = 0u;
+    timer_output.mode = HAL_TIMER_OCMODE_TOGGLE;
+    timer_output.polarity = HAL_TIMER_POLARITY_HIGH;
+    timer_output.output_state = ENABLE;
+	
+    hal_timer_init_output(TIM8, HAL_TIMER_CH1N, timer_output);
+	
     /// END: To be programmed
 
     /* Disable master mode on timer 8 */
@@ -259,10 +268,10 @@ uint32_t get_capture_value(void)
 void set_prescaler_freq_mul(void)
 {
     /// STUDENTS: To be programmed
-
-
-
-
+	
+	multiplier = read_display_hex_switch();
+	hal_timer_prescaler_write(TIM8, prescaler_tim1 / (multiplier * 2u));
+	
     /// END: To be programmed
 }
 
@@ -278,6 +287,9 @@ extern void TIM1_CC_IRQHandler(void)
 	
 	// Save capture value
 	capture_value = hal_timer_compare_read(TIM1, HAL_TIMER_CH1);
+	
+	// Load capture value into TIM8 reload register
+	hal_timer_reload_write(TIM8, capture_value);
 	
 	// Clear interrupt flag
 	hal_timer_irq_clear(TIM1, HAL_TIMER_IRQ_CC1);
@@ -296,9 +308,12 @@ extern void TIM1_CC_IRQHandler(void)
 static uint8_t read_display_hex_switch(void)
 {
     /// STUDENTS: To be programmed
+	
+	uint8_t hex_val = ~CT_HEXSW + 1;
 
-
-
+	hal_ct_seg7_bin_write(hex_val);
+	
+	return hex_val;
 
     /// END: To be programmed
 }
